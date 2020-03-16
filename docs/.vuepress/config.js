@@ -19,7 +19,7 @@ module.exports = {
                 text: '学习',
                 ariaLabel: '学习',
                 items: [
-                    { text: 'API', link: '/pages/api/README.md' },
+                    { text: 'API', link: '/pages/api/PIXI' },
                     { text: '琐碎', link: '/pages/folder2/test4.md' },
                 ]
             },
@@ -45,6 +45,15 @@ module.exports = {
                     ]
                 }
             ],
+            '/pages/api/': [
+                {
+                    title: 'PixiJS',
+                    sidebarDepth: 2,
+                    children: [
+                        ['PIXI.md', 'PIXI']
+                    ]
+                }
+            ]
         }
     }
 }
