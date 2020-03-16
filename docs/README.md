@@ -3,7 +3,7 @@ home: true
 heroImage: /egg.png
 heroText: Pixi.js中文教程
 tagline: 一点一滴都是进步
-actionText: 马上进入 →
+actionText: 起步 →
 actionLink: /pages/folder1/test1.md
 features:
 - title: 快速
