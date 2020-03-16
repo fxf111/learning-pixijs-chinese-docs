@@ -16,15 +16,15 @@ module.exports = {
         nav: [
             { text: '首页', link: '/' },
             {
-                text: '分类',
-                ariaLabel: '分类',
+                text: '学习',
+                ariaLabel: '学习',
                 items: [
-                    { text: '文章', link: '/pages/folder1/test1.md' },
+                    { text: 'API', link: '/pages/api/README.md' },
                     { text: '琐碎', link: '/pages/folder2/test4.md' },
                 ]
             },
             { text: '功能演示', link: '/pages/folder1/test3.md' },
-            { text: 'Github', link: 'https://github.com/dwanda' },
+            { text: 'Github', link: 'https://github.com/fxf111/pixijs' },
         ],
         sidebar: {
             '/pages/folder1/':[
