@@ -1,19 +1,19 @@
 ---
 home: true
 heroImage: /egg.png
-heroText: 裂泉的前端记录
+heroText: Pixi.js中文教程
 tagline: 一点一滴都是进步
 actionText: 马上进入 →
 actionLink: /pages/folder1/test1.md
 features:
-- title: 简洁至上
-  details: 以 Markdown 为中心的项目结构，以最少的配置帮助你专注于写作。
-- title: Vue驱动
-  details: 享受 Vue + webpack 的开发体验，在 Markdown 中使用 Vue 组件，同时可以使用 Vue 来开发自定义主题。
-- title: 高性能
-  details: VuePress 为每个页面预渲染生成静态的 HTML，同时在页面被加载的时候，将作为 SPA 运行。
+- title: 快速
+  details: PixiJS的强项是速度。在2D渲染方面，PixiJS是最快的。
+- title: 灵活
+  details: 友好的、功能丰富的API让PixiJS轻松处理基本问题，同时您可以专注于生成令人难以置信的多平台体验。
+- title: 免费
+  details: PixiJS永久开源，拥有庞大的支持社区推动它的发展和演变。
 ---
-<!-- 
-<ClientOnly>
+
+<!-- <ClientOnly>
   <BottomData/>
 </ClientOnly> -->
