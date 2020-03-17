@@ -56,11 +56,13 @@ module.exports = {
             ],
             '/guide/': [
                 {
-                    title: '教程',
+                    title: '起步',
                     sidebarDepth: 2,
                     children: [
-                        ['start/1.introduction.md', '起步'],
+                        ['start/1.introduction.md', '简介'],
                         ['start/2.setup.md', '安装'],
+                        ['start/3.stage.md', '创建应用和stage（舞台）'],
+                        ['start/4.sprite.md', 'sprites（精灵）'],
                     ]
                 }
             ]
