@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>创建Pixi应用和stage（舞台） | Pixi.js中文网</title>
+    <meta name="description" content="Pixi.js中文网">
+    <meta name="generator" content="VuePress 1.3.1">
+    <link rel="icon" href="/egg.png">
+    
+    <link rel="preload" href="/assets/css/0.styles.e00e78c0.css" as="style"><link rel="preload" href="/assets/js/app.0a966c94.js" as="script"><link rel="preload" href="/assets/js/2.d67c4f0c.js" as="script"><link rel="preload" href="/assets/js/11.c83121c5.js" as="script"><link rel="prefetch" href="/assets/js/10.0e8239f9.js"><link rel="prefetch" href="/assets/js/12.92a901ac.js"><link rel="prefetch" href="/assets/js/13.2628771d.js"><link rel="prefetch" href="/assets/js/14.06d671b6.js"><link rel="prefetch" href="/assets/js/15.b6a87e44.js"><link rel="prefetch" href="/assets/js/16.7c49696c.js"><link rel="prefetch" href="/assets/js/17.b1026687.js"><link rel="prefetch" href="/assets/js/18.2f5b145e.js"><link rel="prefetch" href="/assets/js/19.a3968107.js"><link rel="prefetch" href="/assets/js/3.bf15e95f.js"><link rel="prefetch" href="/assets/js/4.0ffc361c.js"><link rel="prefetch" href="/assets/js/5.5b206ab8.js"><link rel="prefetch" href="/assets/js/6.ea3b84cb.js"><link rel="prefetch" href="/assets/js/7.dff0981a.js"><link rel="prefetch" href="/assets/js/8.66b28cf9.js"><link rel="prefetch" href="/assets/js/9.6bdf287a.js">
+    <link rel="stylesheet" href="/assets/css/0.styles.e00e78c0.css">
+  </head>
+  <body>
+    <div id="app" data-server-rendered="true"><div class="theme-container"><header class="navbar"><div class="sidebar-button"><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" viewBox="0 0 448 512" class="icon"><path fill="currentColor" d="M436 124H12c-6.627 0-12-5.373-12-12V80c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12z"></path></svg></div> <a href="/" class="home-link router-link-active"><img src="/egg.png" alt="Pixi.js中文网" class="logo"> <span class="site-name can-hide">Pixi.js中文网</span></a> <div class="links"><div class="search-box"><input aria-label="Search" autocomplete="off" spellcheck="false" value=""> <!----></div> <nav class="nav-links can-hide"><div class="nav-item"><a href="/" class="nav-link">
+  首页
+</a></div><div class="nav-item"><div class="dropdown-wrapper"><button type="button" aria-label="学习" class="dropdown-title"><span class="title">学习</span> <span class="arrow right"></span></button> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="/pages/api/PIXI.html" class="nav-link">
+  API
+</a></li><li class="dropdown-item"><!----> <a href="/pages/folder2/test4.html" class="nav-link">
+  琐碎
+</a></li></ul></div></div><div class="nav-item"><a href="/pages/folder1/test3.html" class="nav-link">
+  功能演示
+</a></div><div class="nav-item"><a href="https://github.com/fxf111/pixijs" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  Github
+  <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></div> <!----></nav></div></header> <div class="sidebar-mask"></div> <aside class="sidebar"><nav class="nav-links"><div class="nav-item"><a href="/" class="nav-link">
+  首页
+</a></div><div class="nav-item"><div class="dropdown-wrapper"><button type="button" aria-label="学习" class="dropdown-title"><span class="title">学习</span> <span class="arrow right"></span></button> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="/pages/api/PIXI.html" class="nav-link">
+  API
+</a></li><li class="dropdown-item"><!----> <a href="/pages/folder2/test4.html" class="nav-link">
+  琐碎
+</a></li></ul></div></div><div class="nav-item"><a href="/pages/folder1/test3.html" class="nav-link">
+  功能演示
+</a></div><div class="nav-item"><a href="https://github.com/fxf111/pixijs" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  Github
+  <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></div> <!----></nav>  <ul class="sidebar-links"><li><section class="sidebar-group collapsable depth-0"><p class="sidebar-heading open"><span>起步</span> <span class="arrow down"></span></p> <ul class="sidebar-links sidebar-group-items"><li><a href="/guide/start/1.introduction.html" class="sidebar-link">简介</a></li><li><a href="/guide/start/2.setup.html" class="sidebar-link">安装</a></li><li><a href="/guide/start/3.stage.html" class="active sidebar-link">创建应用和stage（舞台）</a><ul class="sidebar-sub-headers"></ul></li><li><a href="/guide/start/4.sprite.html" class="sidebar-link">sprites（精灵）</a></li></ul></section></li></ul> </aside> <main class="page"> <div class="theme-default-content content__default"><h3 id="创建pixi应用和stage（舞台）"><a href="#创建pixi应用和stage（舞台）" class="header-anchor">#</a> 创建Pixi应用和<code>stage（舞台）</code></h3> <hr> <p>现在我们来使用Pixi。</p> <p>第一步是使用Pixi上的Application对象创建一个矩形显示区域。 它会自动生成一个HTML <code>\&lt;canvas\&gt;</code>元素，然后在canvas画布上显示图像。 之后，您需要创建一个称为<code>stage（舞台）</code>的特殊Pixi<code>容器</code>对象。 就像您将在后面看到的那样，该舞台对象将根容器来保存您希望Pixi显示的所有东西的。</p> <p>下面是创建Pixi应用程序和<code>stage（舞台）</code>需要编写的代码。将此代码添加到&lt;script&gt;标记之间的HTML文档中</p> <div class="language-js line-numbers-mode"><pre class="language-js"><code><span class="token comment">//Create a Pixi Application</span>
+<span class="token keyword">let</span> app <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">PIXI<span class="token punctuation">.</span>Application</span><span class="token punctuation">(</span><span class="token punctuation">{</span>width<span class="token operator">:</span> <span class="token number">256</span><span class="token punctuation">,</span> height<span class="token operator">:</span> <span class="token number">256</span><span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token comment">//Add the canvas that Pixi automatically created for you to the HTML document</span>
+document<span class="token punctuation">.</span>body<span class="token punctuation">.</span><span class="token function">appendChild</span><span class="token punctuation">(</span>app<span class="token punctuation">.</span>view<span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br></div></div><p>这是开始使用Pixi所需要编写的最基本的代码。它会在你的HTML页面上生成一个256像素×256像素的黑色canvas元素。下面是在浏览器中运行这段代码时的情况。</p> <p><img src="/01.png" alt=""></p> <p>没错，就是一个黑色方块！</p></div> <footer class="page-edit"><!----> <div class="last-updated"><span class="prefix">lastUpdate:</span> <span class="time">3/17/2020, 6:27:19 AM</span></div></footer> <div class="page-nav"><p class="inner"><span class="prev">
+      ←
+      <a href="/guide/start/2.setup.html" class="prev">
+        安装
+      </a></span> <span class="next"><a href="/guide/start/4.sprite.html">
+        sprites（精灵）
+      </a>
+      →
+    </span></p></div> </main></div><div class="global-ui"></div></div>
+    <script src="/assets/js/app.0a966c94.js" defer></script><script src="/assets/js/2.d67c4f0c.js" defer></script><script src="/assets/js/11.c83121c5.js" defer></script>
+  </body>
+</html>
