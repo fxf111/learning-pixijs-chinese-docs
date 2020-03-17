@@ -59,7 +59,8 @@ module.exports = {
                     title: '教程',
                     sidebarDepth: 2,
                     children: [
-                        ['start/1.introduction.md', '起步']
+                        ['start/1.introduction.md', '起步'],
+                        ['start/2.setup.md', '安装'],
                     ]
                 }
             ]
