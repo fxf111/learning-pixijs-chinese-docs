@@ -57,13 +57,15 @@ module.exports = {
             '/guide/': [
                 {
                     title: '起步',
-                    sidebarDepth: 2,
+                    sidebarDepth: 4,
                     children: [
                         ['start/1.introduction.md', '简介'],
                         ['start/2.setup.md', '安装'],
                         ['start/3.stage.md', '创建应用和stage（舞台）'],
                         ['start/4.sprite.md', 'sprites（精灵）'],
                         ['start/5.positioning-sprites.md', '定位精灵'],
+                        ['start/6.size-and-scale.md', '大小和缩放'],
+                        ['start/7.rotation.md', '旋转'],
                     ]
                 }
             ]
