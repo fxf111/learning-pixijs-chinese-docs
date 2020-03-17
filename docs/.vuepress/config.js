@@ -63,6 +63,7 @@ module.exports = {
                         ['start/2.setup.md', '安装'],
                         ['start/3.stage.md', '创建应用和stage（舞台）'],
                         ['start/4.sprite.md', 'sprites（精灵）'],
+                        ['start/5.positioning-sprites.md', '定位精灵'],
                     ]
                 }
             ]
