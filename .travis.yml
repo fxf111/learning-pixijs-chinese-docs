@@ -5,6 +5,7 @@ install:
   - npm ci # yarn install
 script:
   - npm run build # yarn docs:build
+  - echo pixijs.wiki -> CNAME
 deploy:
   provider: pages
   skip_cleanup: true
@@ -13,5 +14,3 @@ deploy:
   keep_history: true
   on:
     branch: master
-after_deploy:
-  - pwd
