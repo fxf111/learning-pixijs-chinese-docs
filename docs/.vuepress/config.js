@@ -53,6 +53,15 @@ module.exports = {
                         ['PIXI.md', 'PIXI']
                     ]
                 }
+            ],
+            '/guide/': [
+                {
+                    title: '教程',
+                    sidebarDepth: 2,
+                    children: [
+                        ['start/1.introduction.md', '起步']
+                    ]
+                }
             ]
         }
     }

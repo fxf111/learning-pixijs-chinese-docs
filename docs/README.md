@@ -4,7 +4,7 @@ heroImage: /egg.png
 heroText: Pixi.js中文教程
 tagline: 一点一滴都是进步
 actionText: 起步 →
-actionLink: /pages/folder1/test1.md
+actionLink: /guide/index
 features:
 - title: 快速
   details: PixiJS的强项是速度。在2D渲染方面，PixiJS是最快的。
