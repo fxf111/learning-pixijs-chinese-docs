@@ -4,14 +4,14 @@ module.exports = {
     description: 'Pixi.js中文网', // meta 中的描述文字，用于SEO
     // 注入到当前页面的 HTML <head> 中的标签
     head: [
-        ['link', { rel: 'icon', href: '/egg.png' }],  //浏览器的标签栏的网页图标
+        ['link', { rel: 'icon', href: '/favicon.png' }],  //浏览器的标签栏的网页图标
     ],
     markdown: {
         lineNumbers: true
     },
     serviceWorker: true,
     themeConfig: {    
-        logo: '/egg.png',
+        logo: '/pixijs-v5-logo-1.png',
         lastUpdated: 'lastUpdate', // string | boolean
         nav: [
             { text: '首页', link: '/' },
@@ -19,7 +19,7 @@ module.exports = {
                 text: '学习',
                 ariaLabel: '学习',
                 items: [
-                    { text: 'API', link: '/pages/api/PIXI' },
+                    { text: 'API', link: '/api/PIXI' },
                     { text: '琐碎', link: '/pages/folder2/test4.md' },
                 ]
             },
@@ -45,7 +45,7 @@ module.exports = {
                     ]
                 }
             ],
-            '/pages/api/': [
+            '/api/': [
                 {
                     title: 'PixiJS',
                     sidebarDepth: 2,
@@ -66,6 +66,9 @@ module.exports = {
                         ['start/5.positioning-sprites.md', '定位精灵'],
                         ['start/6.size-and-scale.md', '大小和缩放'],
                         ['start/7.rotation.md', '旋转'],
+                        ['start/8.make-sprite-from-a-tileset-sub-image.md', '使用雪碧图制作精灵'],
+                        ['start/9.make-sprite-from-texture-atlas.md', '使用纹理贴图集制作精灵'],
+                        ['start/10.moving-sprites.md', '移动精灵'],
                     ]
                 }
             ]
