@@ -69,6 +69,8 @@ module.exports = {
                         ['start/8.make-sprite-from-a-tileset-sub-image.md', '使用雪碧图制作精灵'],
                         ['start/9.make-sprite-from-texture-atlas.md', '使用纹理贴图集制作精灵'],
                         ['start/10.moving-sprites.md', '移动精灵'],
+                        ['start/11.game-states.md', '游戏状态'],
+                        ['start/12.keyboard-movement.md', '键盘移动'],
                     ]
                 }
             ]
