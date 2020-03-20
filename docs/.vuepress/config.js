@@ -71,6 +71,7 @@ module.exports = {
                         ['start/10.moving-sprites.md', '移动精灵'],
                         ['start/11.game-states.md', '游戏状态'],
                         ['start/12.keyboard-movement.md', '键盘移动'],
+                        ['start/13.grouping-sprites.md', '精灵分组'],
                     ]
                 }
             ]
