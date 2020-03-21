@@ -79,6 +79,19 @@ module.exports = {
                         ['start/18.taking-it-further.md', '进一步使用'],
                         ['start/19.support.md', '支持这个项目'],
                     ]
+                },
+                {
+                    title: '进阶',
+                    sidebarDepth: 2,
+                    children: [
+                        {
+                            title: '制作视差滚动',
+                            sidebarDepth: 2,
+                            children: [
+                                ['parallax-scroller/part-1.md', '第一部分']
+                            ]
+                        }
+                    ]
                 }
             ]
         }
