@@ -75,6 +75,9 @@ module.exports = {
                         ['start/14.graphic-primitive.md', '图形绘制'],
                         ['start/15.collision-detection.md', '碰撞检查'],
                         ['start/16.case-study-treasure-hunter.md', '案例：寻宝猎人'],
+                        ['start/17.sprite-more.md', '精灵的额外知识'],
+                        ['start/18.taking-it-further.md', '进一步使用'],
+                        ['start/19.support.md', '支持这个项目'],
                     ]
                 }
             ]
