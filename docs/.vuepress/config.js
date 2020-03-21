@@ -72,6 +72,9 @@ module.exports = {
                         ['start/11.game-states.md', '游戏状态'],
                         ['start/12.keyboard-movement.md', '键盘移动'],
                         ['start/13.grouping-sprites.md', '精灵分组'],
+                        ['start/14.graphic-primitive.md', '图形绘制'],
+                        ['start/15.collision-detection.md', '碰撞检查'],
+                        ['start/16.case-study-treasure-hunter.md', '案例：寻宝猎人'],
                     ]
                 }
             ]
