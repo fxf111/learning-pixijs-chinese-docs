@@ -16,11 +16,20 @@ module.exports = {
         nav: [
             { text: '首页', link: '/' },
             {
-                text: '学习',
-                ariaLabel: '学习',
+                text: '文档',
+                ariaLabel: '文档',
                 items: [
-                    { text: 'API', link: '/api/PIXI' },
-                    { text: '琐碎', link: '/pages/folder2/test4.md' },
+                    {text: '学习', ariaLabel: '学习', items: [
+                        { text: '入门教程', link: '/guide/start/1.introduction'},
+                        { text: '进阶教程', link: '/guide/parallax-scroller/part-1'}
+                    ]},
+                    {
+                        text: '其它', 
+                        items: [
+                            { text: 'API', link: 'http://pixijs.download/release/docs/index.html' },
+                            { text: '琐碎', link: '/pages/folder2/test4.md' },
+                        ]
+                    }
                 ]
             },
             { text: '功能演示', link: '/pages/folder1/test3.md' },
