@@ -3,3 +3,4 @@
 *.html linguist-language=JavaScript
 *.yml linguist-language=JavaScript
 *.sh linguish-language=JavaScript
+*.md linguish-language=JavaScript
