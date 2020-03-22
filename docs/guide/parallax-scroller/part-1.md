@@ -23,17 +23,17 @@ JavaScript是无处不在。由于浏览器的日益成熟和大量的JavaScript
 
 <a href="http://www.yeahbutisitflash.com/pixi-parallax-scroller/final/index.html">![](/scroller/ps-tut1-screenshot1.png)</a>
 
-单击上面的图像将启动并运行视差滚动的最终版本。请注意它包含了三个视差层:远层、中间层和前景层。在第一个教程中，我们将实现一些基本的视差滚动，只关注远层和中间层。当然，为了做到这一点，我们将介绍pixi.js的基础知识。此外，如果你是JavaScript新手，你应该会发现这是一个开始学习HTML5游戏编程基础的好地方。
+单击上面的图像将启动并运行视差滚动的最终版本。请注意它包含了三个视差层:远层、中间层和前景层。在第一个教程中，我们将实现一些基本的视差滚动，即只处理远层和中间层。当然，为了完成这件事情，我们会给你介绍一些pixi.js的基础知识。此外，如果你是JavaScript新手，这还是一个学习HTML5游戏编程基础的好地方。
 
 <a href="http://www.yeahbutisitflash.com/pixi-parallax-scroller/tutorial-1/index.html">![](/scroller/ps-tut1-screenshot1.png)</a>
 
-在继续之前，请单击上面的图像，以查看您将在本教程中实际案例运行效果。你也可以从GitHub[下载本教程的源代码](http://github.com/ccaleb/pixi-parallax-scroller)。
+在我们开始之前，请单击上面的图像，查看当前这部分教程的成果。你可以从GitHub[下载本教程的源代码](http://github.com/ccaleb/pixi-parallax-scroller)。
 
 ## 入门
 
-为了进行开发，您需要合适的代码编辑器或IDE。 我将使用Sublime Text 2，可以从[www.sublimetext.com/2](http://www.sublimetext.com/2)下载其试用版。
+开发这个项目，需要合适的代码编辑器或IDE。 我使用的Sublime Text 2，你们可以从[www.sublimetext.com/2](http://www.sublimetext.com/2)下载其试用版。
 
-您还需要一个web浏览器来测试您的工作。任何现代浏览器都可以，但是我将使用谷歌Chrome，并在本教程中介绍它的一些开发工具。如果你没有安装Chrome，那就去安装吧。
+不只如此，您还需要一个web浏览器来测试您的工作。任何现代浏览器都可以，但是我要使用的Chrome，并在本教程中介绍它的一些开发工具。如果你没有安装Chrome，就先安装一个吧。
 
 [www.google.com/chrome.](http://www.google.com/chrome)
 
