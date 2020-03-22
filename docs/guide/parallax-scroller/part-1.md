@@ -62,7 +62,7 @@ Mac OS X 下是这样的。
 
 我们把下面的代码添加到`index.html`里：
 
-```js
+```html
 <html>
   <head>
     <meta charset="UTF-8">
@@ -77,7 +77,7 @@ Mac OS X 下是这样的。
 
 现在让我们将HTML5 Canvas元素添加到页面中。只需在`<body>`元素之间添加以下代码行，然后保存文件
 
-```js
+```html
 <body>
   <div align="center">
     <canvas id="game-canvas" width="512" height="384"></canvas>
@@ -95,7 +95,7 @@ Mac OS X 下是这样的。
 
 您会发现在浏览器上看不到任何画布区域。 这是因为它与页面颜色完全相同。 让我们修改CSS样式，使他们颜色不同。 在文件的`<head>`元素中添加以下行：
 
-```js
+```html
 <html>
   <head>
     <meta charset="UTF-8">
@@ -115,7 +115,7 @@ Mac OS X 下是这样的。
 ## 引入Pixi
 
 现在我们的画布已经设置好了，让我们引入Pixi，在body底部加入以下代码
-```js
+```html
 <body>
   <div align="center">
     <canvas id="game-canvas" width="512" height="384"></canvas>
@@ -138,7 +138,7 @@ x GET file:///Users/ccaleb/Documents/javascript/tutorial/part1/parallax-scroller
 
 当HTML页面的内容已经完全加载完毕时，它的`<body>`元素将触发一个`onload`事件。此时我们可以确定我们的canvas画布已经初始化，pixi.js库已经完全加载。我们可以触发我们选择的JavaScript来响应这个事件，并开始直接使用pixi.js。让我们在触发`onload`事件时，调用一个名为`init()`的函数来实现这一点。
 
-```js
+```html
 <body onload="init();">
   <div align="center">
     <canvas id="game-canvas" width="512" height="384"></canvas>
@@ -149,7 +149,7 @@ x GET file:///Users/ccaleb/Documents/javascript/tutorial/part1/parallax-scroller
 
 现在我们需要编写实际的`init()`函数。将该函数放在`<body>`元素的底部，让她在avaScript控制台输出一些文字，以确保成功捕获了页面的`onload`事件。
 
-```js
+```html
 <body onload="init();">
   <div align="center">
     <canvas id="game-canvas" width="512" height="384"></canvas>
