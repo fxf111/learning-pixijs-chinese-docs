@@ -29,7 +29,7 @@ JavaScript是无处不在。由于浏览器的日益成熟和大量的JavaScript
 
 在继续之前，请单击上面的图像，以查看您将在本教程中实际案例运行效果。你也可以从GitHub[下载本教程的源代码](http://github.com/ccaleb/pixi-parallax-scroller)。
 
-## 起步
+## 入门
 
 为了进行开发，您需要合适的代码编辑器或IDE。 我将使用Sublime Text 2，可以从[www.sublimetext.com/2](http://www.sublimetext.com/2)下载其试用版。
 
@@ -287,3 +287,268 @@ function init() {
 
 还要注意我们如何使用`position`属性将精灵的x和y坐标设置到舞台的左上角。 舞台的坐标是从左到右，从上到下，这意味着舞台的左上角位置是（0,0），右下角位置是（512,384）。
 
+精灵有一个轴心点（pivot point），可以围绕它旋转。轴心点也用于精灵的定位(将其视为手柄)。精灵的默认轴心点被设置在左上角。这就是为什么当我们将精灵定位在舞台左上角时，我们将它的位置设为(0,0)。
+
+最后一步是将精灵添加到舞台上。这是使用PIXI.Stage类的`addChild()`方法完成的。 如下所示：
+
+```js
+  var farTexture = PIXI.Texture.fromImage("resources/bg-far.png");
+  far = new PIXI.Sprite(farTexture);
+  far.position.x = 0;
+  far.position.y = 0;
+  stage.addChild(far);
+
+  renderer.render(stage);
+}
+```
+
+保存并刷新浏览器。您可能希望看到您的背景图层，但可能会发现它丢失了。 那为什么呢？ 毕竟，在将背景添加到显示列表后，我们会立即调用渲染器的`render()`方法。 嗯，这是问题根源所在。 实际上，我们应该在纹理进行完全加载完成后，再去渲染精灵。
+
+目前，我们可以通过简单地等待一小段时间然后手动强制呈现内容来纠正此问题。 那应该给纹理足够的时间来加载。 我们将使用Chrome的JavaScript控制台来实现此目的。 只需在JavaScript控制台窗口中输入以下内容：
+```js
+renderer.render(stage);
+```
+
+::: tip
+JavaScript控制台可以访问程序中的任何全局变量。因此，我们可以访问`renderer`和`stage`变量，也可以调用属于它们的方法。
+:::
+
+恭喜你！ 现在，您应该可以看到背景层紧贴在屏幕顶部。
+
+现在继续添加中间层：
+
+```js {7-13}
+  var farTexture = PIXI.Texture.fromImage("resources/bg-far.png");
+  far = new PIXI.Sprite(farTexture);
+  far.position.x = 0;
+  far.position.y = 0;
+  stage.addChild(far);
+
+  var midTexture = PIXI.Texture.fromImage("resources/bg-mid.png");
+  mid = new PIXI.Sprite(midTexture);
+  mid.position.x = 0;
+  mid.position.y = 128;
+  stage.addChild(mid);
+
+  renderer.render(stage);
+}
+```
+
+保存文件并刷新浏览器。要查看这两个层，您将再次需要手动渲染您的内容。在JavaScript控制台中输入以下内容
+```js
+renderer.render(stage);
+```
+
+因为中间层是在第二阶段添加的，它被放置在一个比背景层更高的深度。每次调用`addChild()`都会将其显示对象直接添加到前一个显示对象的上面。
+
+::: tip
+请记住，这部分只处理中远层。 在后面的教程中，我们将会制作更复杂的前景层。
+:::
+
+## 主循环
+现在我们有了两个背景层，我想我们可以尝试实现一些视差滚动，并且还可以找到一种渲染内容的方法，而无需从JavaScript控制台手动进行。
+
+为了避免疑问，让我们快速澄清一下视差滚动到底是什么。这是一种在视频游戏中使用的滚动技术，背景图形层在屏幕上的移动速度比前景层慢。这样做会在2D游戏中创造出一种深度的幻觉，并为玩家提供一种额外的沉浸感。
+
+有了这些信息，我们可以将其应用于我们的两个Sprite层，以产生水平视差滚动器，在其中我们将背景层在屏幕上的移动速度比中间层慢。 为了滚动每个图层，我们将必须创建一个主循环，在该循环中我们不断更改每个图层的位置。 为此，我们将利用JavaScript原生函数`requestAnimationFrame()`的帮助，调用指定的方法绘制画布/舞台。
+
+首先调用`requestAnimationFrame()`
+```js {9}
+  var midTexture = PIXI.Texture.fromImage("resources/bg-mid.png");
+  mid = new PIXI.Sprite(midTexture);
+  mid.position.x = 0;
+  mid.position.y = 128;
+  stage.addChild(mid);
+
+  renderer.render(stage);
+
+  requestAnimationFrame(update);
+}
+```
+
+您刚刚添加的行表示您想在下次重新绘制舞台内容时调用名为`update()`的函数。如果您连续不断地调用`requestAnimationFrame()`，那么这通常会导致`update()`函数每秒钟被调用60次，也就是通常所说的每秒60帧(FPS)。我们指定的`update()`函数来充当主循环。
+
+我们还没有一个`update()`函数，但是在编写之前，删除下面高亮显示的代码行，因为我们的主循环会来处理渲染。
+
+```js {7}
+  var midTexture = PIXI.Texture.fromImage("resources/bg-mid.png");
+  mid = new PIXI.Sprite(midTexture);
+  mid.position.x = 0;
+  mid.position.y = 128;
+  stage.addChild(mid);
+
+  renderer.render(stage); // 删除这行代码
+
+  requestAnimationFrame(update);
+}
+```
+
+好吧，让我们编写主循环，让它稍微改变两层的位置，并渲染舞台的内容，以便我们可以看到每帧重绘时的差异。在`init()`函数后面直接添加`update()`函数。
+
+```js {1-8}
+function update() {
+  far.position.x -= 0.128;
+  mid.position.x -= 0.64;
+
+  renderer.render(stage);
+
+  requestAnimationFrame(update);
+}
+</script>
+```
+
+`main()`中的前两行更新了远和中精灵的x位置。 请注意，我们将远端层向左移动0.128像素，而将中间层向左移动0.64像素。 要将某物向左移动，我们使用负值。如果想要向右移动，则使用正值。 还要注意，我们将精灵移动了不到一像素。 Pixi的渲染器可以使用亚（子）像素值存储和处理位置。 当您想在屏幕上缓慢移动内容时，这是理想的选择。
+
+在循环的最后，我们再次调用`requestAnimationFrame()`函数，以确保可以再次调用`update()`绘制画布。正是这个函数确保我们的主循环被不断地调用，从而确保视差层在屏幕上稳定地移动。
+
+![](/scroller/ps-tut1-screenshot5.png)
+
+保存您的工作并刷新浏览器。您应该看到这两个图层现在都已自动呈现到屏幕上。 同样，当两层都在移动时，中间层实际上将比远端层移动得更快，从而给场景带来纵深感。但是，您应该发现了一个明显的问题：随着每个精灵从屏幕的左侧移出，它会在右侧留下一个空白区域。 换句话说，不会给人一种环境连续滚动的错觉。 幸运的是我们有一个解决方案。
+
+## 使用平铺
+
+到目前为止，我们已经使用`PIXI.Sprite`类来表示要显示对象。 但是pixi.js实际上提供了其他几个显示对象来满足不同的需求。
+
+如果您查看`bg-far.png`和`bg-mid.png`，那么您应该注意到这两个图像都被设计为水平重复。检查每幅图像的左右边缘。你应该注意到，极右边缘完美地回到了极左边。
+
+因此，让我们通过对代码进行一些调整来利用切片精灵的优势。 我们将首先关注远端层。 从`setup()`函数中删除以下行：
+```js {2}
+  var farTexture = PIXI.Texture.fromImage("resources/bg-far.png");
+  far = new PIXI.Sprite(farTexture); // 删除此行
+  far.position.x = 0;
+  far.position.y = 0;
+  stage.addChild(far);
+}
+```
+
+替换为新的代码
+```js {2}
+  var farTexture = PIXI.Texture.fromImage("resources/bg-far.png");
+  far = new PIXI.extras.TilingSprite(farTexture, 512, 256); // 替换为这一行代码
+  far.position.x = 0;
+  far.position.y = 0;
+  stage.addChild(far);
+}
+```
+
+在`setup()`函数中，插入并设置以下两个属性
+```js {5,6}
+  var farTexture = PIXI.Texture.fromImage("resources/bg-far.png");
+  far = new PIXI.extras.TilingSprite(farTexture, 512, 256);
+  far.position.x = 0;
+  far.position.y = 0;
+  far.tilePosition.x = 0; // 插入此行
+  far.tilePosition.y = 0; // 插入此行
+  stage.addChild(far);
+}
+```
+
+在继续之前，让我们先讨论`TilingSprite`类构造函数及其`tilePosition`属性。
+
+您会立即注意到`TilingSprite`类构造函数需要3个参数，而`Sprite`类只需要一个参数
+
+```js
+far = new PIXI.extras.TilingSprite(farTexture, 512, 256);
+```
+
+它的第一个参数与前面相同:一个对您希望使用的纹理的引用。第二个和第三个参数分别期望平铺精灵的宽度和高度。通常，您将这两个参数设置为纹理的宽度和高度，在`bg-far.png`的情况下是512 x 256像素。
+
+::: tip
+在我们对纹理的宽度和高度进行硬编码后，您实际上可以查询纹理以发现其尺寸。 这是我们代码的替代版本：
+```js
+far = new PIXI.extras.TilingSprite(
+  farTexture,
+  farTexture.baseTexture.width,
+  farTexture.baseTexture.height
+);
+```
+:::
+
+我们还利用了切片精灵的`tilePosition`属性，该属性用于偏移精灵纹理的位置。换句话说，通过调整偏移量，您可以在水平和/或垂直方向上移动纹理，并使纹理环绕这个精灵。 本质上，您可以模拟滚动而无需实际更改精灵的位置。
+
+我们将精灵的`tilePosition`属性设置为(0,0)，页面上的精灵看起来没啥变化
+
+```js
+far.tilePosition.x = 0;
+far.tilePosition.y = 0;
+```
+
+现在剩下要做的就是通过不断更新精灵的`tilePosition`属性的水平偏移量来模拟滚动。为此，我们修改一下`update()`函数。删除下面内容
+```js {2}
+function update() {
+  far.position.x -= 0.128; 
+  mid.position.x -= 0.64;
+
+  renderer.render(stage); 
+
+  requestAnimationFrame(update);
+}
+```
+
+然后用以下内容替换它
+
+```js {2}
+function update() {
+  far.tilePosition.x -= 0.128;
+  mid.position.x -= 0.64;
+
+  renderer.render(stage);
+
+  requestAnimationFrame(update);
+}
+```
+
+保存并再次刷新浏览器。您将看到，正如预期的那样，远层现在无缝地滚动和重复。
+
+好的，让我们继续对中间层做同样的修改。`init()`更改后如下所示：
+```js {18,21,22}
+function init() {
+  stage = new PIXI.Container();
+  renderer = PIXI.autoDetectRenderer(
+    512,
+    384,
+    {view:document.getElementById("game-canvas")}
+  );
+
+  var farTexture = PIXI.Texture.fromImage("resources/bg-far.png");	
+  far = new PIXI.extras.TilingSprite(farTexture, 512, 256);
+  far.position.x = 0;
+  far.position.y = 0;
+  far.tilePosition.x = 0;
+  far.tilePosition.y = 0;
+  stage.addChild(far);
+
+  var midTexture = PIXI.Texture.fromImage("resources/bg-mid.png");
+  mid = new PIXI.extras.TilingSprite(midTexture, 512, 256);
+  mid.position.x = 0;
+  mid.position.y = 128;
+  mid.tilePosition.x = 0;
+  mid.tilePosition.y = 0;
+  stage.addChild(mid);
+
+  requestAnimationFrame(update);
+}
+```
+
+现在继续对`update()`函数进行以下更改
+```js {3}
+function update() {
+  far.tilePosition.x -= 0.128;
+  mid.tilePosition.x -= 0.64;
+
+  renderer.render(stage);
+
+  requestAnimationFrame(update);
+}
+```
+保存并测试代码。这一次，你应该看到两个层都完美地滚动。
+
+## 总结
+我们已经介绍了pixi.js的一些基础知识，并了解了如何使用`PIXI.extras.TilingSprite`来创建无限滚动的图层。我们还看到了如何使用`addChild()`将精灵堆叠在一起以产生令人难以置信的视差滚动。我鼓励您继续使用Pixi，并查看它附带的文档和代码示例。它们都可以在[PixiJS官方网站](http://www.pixijs.com/)上找到。
+
+## 下节预告
+虽然我们已经启动并运行了水平视差滚动器，但仍然有些复杂。 下次，我们将介绍视口和世界定位的概念，如果您最终希望将滚动条添加到游戏中，那么这两者都非常重要。
+
+重构我们现有的代码库也将花费一些宝贵的时间。 我们将采用一种更加面向对象的架构，摆脱目前对全局变量的依赖。 在下一个教程结束时，所有滚动功能都将巧妙地包含在其自己的类中。
+
+我希望这篇介绍教程对你有用，我希望在[第二部分教程](/guide/parallax-scroller/part-2.md)还能再见你。

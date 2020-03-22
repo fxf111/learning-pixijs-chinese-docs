@@ -88,7 +88,8 @@ module.exports = {
                             title: '制作视差滚动',
                             sidebarDepth: 2,
                             children: [
-                                ['parallax-scroller/part-1.md', '第一部分']
+                                ['parallax-scroller/part-1.md', '第一部分'],
+                                ['parallax-scroller/part-2.md', '第二部分'],
                             ]
                         }
                     ]
