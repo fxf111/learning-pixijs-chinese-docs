@@ -9,3 +9,4 @@
 *.cmd linguist-language=JavaScript 
 *.styl linguist-language=JavaScript
 *.vue linguist-language=JavaScript
+*.png linguist-language=JavaScript
