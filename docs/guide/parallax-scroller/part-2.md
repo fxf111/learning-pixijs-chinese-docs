@@ -961,7 +961,7 @@ Main.prototype.update = function() {
 
 最后，引入`Main.js`。
 
-```js {5}
+```html {5}
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pixi.js/4.0.0/pixi.min.js"></script>
 <script src="Far.js"></script>
 <script src="Mid.js"></script>
