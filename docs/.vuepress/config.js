@@ -99,6 +99,7 @@ module.exports = {
                             children: [
                                 ['parallax-scroller/part-1.md', '第一部分'],
                                 ['parallax-scroller/part-2.md', '第二部分'],
+                                ['parallax-scroller/part-3.md', '第三部分'],
                             ]
                         }
                     ]
