@@ -82,7 +82,7 @@ module.exports = {
                         ['start/12.keyboard-movement.md', '键盘移动'],
                         ['start/13.grouping-sprites.md', '精灵分组'],
                         ['start/14.graphic-primitive.md', '图形绘制'],
-                        ['start/15.collision-detection.md', '碰撞检查'],
+                        ['start/15.collision-detection.md', '碰撞检测'],
                         ['start/16.case-study-treasure-hunter.md', '案例：寻宝猎人'],
                         ['start/17.sprite-more.md', '精灵的额外知识'],
                         ['start/18.taking-it-further.md', '进一步使用'],
