@@ -118,7 +118,8 @@ module.exports = {
                             sidebarDepth: 2,
                             children: [
                               ['proclive.io/shooting-tutorial.md', '老鼠旋转射击游戏'],
-                              ['proclive.io/pixi-js-drag-drop.md',  '拖放教程']
+                              ['proclive.io/pixi-js-drag-drop.md',  '拖放教程'],
+                              ['proclive.io/pixi-js-reverse-mask-tutorial.md',  '反面罩教程']
                             ]
                         }
                     ]
