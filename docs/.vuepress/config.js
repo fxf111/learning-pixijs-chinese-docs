@@ -57,12 +57,12 @@ module.exports = {
             ],
             '/pages/example/': [
                 {
-                    title: 'DEMO',
-                    collapsable: false, // 可选的, 默认值是 true,
-                    sidebarDepth: 1,    // 可选的, 默认值是 1
+                    title: '基础示例',
+                    sidebarDepth: 4,    // 可选的, 默认值是 1
                     children: [
-                        ['container.md', 'Container'],
-                        ['sprite.md', 'Sprite']
+                        ['container.md', '容器'],
+                        ['transparent-background.md', '透明背景'],
+                        ['tinting.md', '着色'],
                     ]
                 }
             ],
@@ -111,7 +111,14 @@ module.exports = {
                             children: [
                                 ['parallax-scroller/part-1.md', '第一部分'],
                                 ['parallax-scroller/part-2.md', '第二部分'],
-                                ['parallax-scroller/part-3.md', '第三部分'],
+                                ['parallax-scroller/part-3.md', '第三部分']
+                            ]
+                        }, {
+                            title: 'proclive.io PIXI教程',
+                            sidebarDepth: 2,
+                            children: [
+                              ['proclive.io/shooting-tutorial.md', '老鼠旋转射击游戏'],
+                              ['proclive.io/pixi-js-drag-drop.md',  '拖放教程']
                             ]
                         }
                     ]
