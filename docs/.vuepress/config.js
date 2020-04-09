@@ -57,12 +57,11 @@ module.exports = {
             ],
             '/pages/example/': [
                 {
-                    title: 'DEMO',
-                    collapsable: false, // 可选的, 默认值是 true,
-                    sidebarDepth: 1,    // 可选的, 默认值是 1
+                    title: '基础示例',
+                    sidebarDepth: 4,    // 可选的, 默认值是 1
                     children: [
-                        ['container.md', 'Container'],
-                        ['sprite.md', 'Sprite']
+                        ['container.md', '容器'],
+                        ['transparent-background.md', '透明背景']
                     ]
                 }
             ],
