@@ -26,14 +26,14 @@ module.exports = {
                     {
                         text: '其它', 
                         items: [
-                            { text: 'API', link: 'http://pixijs.download/release/docs/index.html' },
+                            { text: 'API', link: 'http://b.aitrade.ga/pixi.js-cn' },
                             { text: '琐碎', link: '/pages/folder2/test4.md' },
                         ]
                     }
                 ]
             },
             { text: '示例', link: '/pages/example/container.md' },
-            { text: '功能演示', link: '/pages/folder1/test3.md' },
+            // { text: '功能演示', link: '/pages/folder1/test3.md' },
             { text: 'Github', link: 'https://github.com/fxf111/pixijs' },
         ],
         sidebar: {
@@ -57,24 +57,24 @@ module.exports = {
             ],
             '/pages/example/': [
                 {
-                    title: 'DEMO',
-                    collapsable: false, // 可选的, 默认值是 true,
-                    sidebarDepth: 1,    // 可选的, 默认值是 1
+                    title: '基础示例',
+                    sidebarDepth: 4,    // 可选的, 默认值是 1
                     children: [
-                        ['container.md', 'Container'],
-                        ['sprite.md', 'Sprite']
+                        ['container.md', '容器'],
+                        ['transparent-background.md', '透明背景'],
+                        ['tinting.md', '着色'],
                     ]
                 }
             ],
-            '/api/': [
-                {
-                    title: 'PixiJS',
-                    sidebarDepth: 2,
-                    children: [
-                        ['PIXI.md', 'PIXI']
-                    ]
-                }
-            ],
+            // '/api/': [
+            //     {
+            //         title: 'PixiJS',
+            //         sidebarDepth: 2,
+            //         children: [
+            //             ['PIXI.md', 'PIXI']
+            //         ]
+            //     }
+            // ],
             '/guide/': [
                 {
                     title: '起步',

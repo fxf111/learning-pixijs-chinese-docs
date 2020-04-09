@@ -251,6 +251,14 @@ function animate() {
  
 (移动鼠标查看效果)
 
+<iframe 
+ width="800"
+ height="600" 
+ src="/demo/tutorial-light"  
+ frameborder="0" 
+ style="overflow:hidden" 
+ scrolling="no">
+</iframe>
 为了本教程的目的，我不得不精简代码，
 在原始代码中，我实现了传递一系列小灯的功能，
 这些灯用于环境照明和子弹发光。
