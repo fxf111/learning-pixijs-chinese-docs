@@ -15,7 +15,7 @@
 
 - 熟悉pixi.js基础知识
 - 了解JavaScript或ActionScript
-- 本的面向对象概念
+- 基本的面向对象概念
 
 我们继续做上节教程未完成的部分。您可以使用在前两个教程中生成的代码，也可以从GitHub下载[第二个教程的源代码](https://github.com/ccaleb/pixi-parallax-scroller/tree/master/tutorial-2)并在那里工作。您还可以在GitHub上找到本教程[第三部分的全部源代码](https://github.com/ccaleb/pixi-parallax-scroller/tree/master/tutorial-3)，不过我还是鼓励您按照本教程中详细介绍的步骤来操作，并且只有在遇到问题时才会参考源代码。
 

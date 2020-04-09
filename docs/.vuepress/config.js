@@ -33,7 +33,7 @@ module.exports = {
                 ]
             },
             { text: '示例', link: '/pages/example/container.md' },
-            { text: '功能演示', link: '/pages/folder1/test3.md' },
+            // { text: '功能演示', link: '/pages/folder1/test3.md' },
             { text: 'Github', link: 'https://github.com/fxf111/pixijs' },
         ],
         sidebar: {
@@ -117,7 +117,7 @@ module.exports = {
                             title: 'proclive.io PIXI教程',
                             sidebarDepth: 2,
                             children: [
-                              ['proclive.io/shooting-tutorial.md', '老鼠旋转射击游戏'],
+                              ['proclive.io/shooting-tutorial.md', '旋转鼠标射击游戏'],
                               ['proclive.io/pixi-js-drag-drop.md',  '拖放教程']
                             ]
                         }
