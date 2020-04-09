@@ -61,7 +61,8 @@ module.exports = {
                     sidebarDepth: 4,    // 可选的, 默认值是 1
                     children: [
                         ['container.md', '容器'],
-                        ['transparent-background.md', '透明背景']
+                        ['transparent-background.md', '透明背景'],
+                        ['tinting.md', '着色'],
                     ]
                 }
             ],

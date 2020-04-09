@@ -1,5 +1,5 @@
 **透明背景(Transparent Background)**
-***
+---
 
 <iframe id="container" src="/example/transparent-background.html" style="width: 1000px;height: 500px;border:0"></iframe>
 
@@ -7,20 +7,20 @@
 const app = new PIXI.Application({ transparent: true });
 document.body.appendChild(app.view);
 
-// create a new Sprite from an image path.
+// 从图像路径创建新的精灵。
 const bunny = PIXI.Sprite.from('examples/assets/bunny.png');
 
-// center the sprite's anchor point
+// 将精灵的锚点居中
 bunny.anchor.set(0.5);
 
-// move the sprite to the center of the screen
+// 将精灵移到屏幕中央
 bunny.x = app.screen.width / 2;
 bunny.y = app.screen.height / 2;
 
 app.stage.addChild(bunny);
 
 app.ticker.add(() => {
-    // just for fun, let's rotate mr rabbit a little
+    // 为了好玩，让我们旋转兔子先生一点
     bunny.rotation += 0.1;
 });
 ```
