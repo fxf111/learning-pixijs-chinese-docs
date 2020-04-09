@@ -32,6 +32,7 @@ module.exports = {
                     }
                 ]
             },
+            { text: '示例', link: '/pages/example/container.md' },
             { text: '功能演示', link: '/pages/folder1/test3.md' },
             { text: 'Github', link: 'https://github.com/fxf111/pixijs' },
         ],
@@ -51,6 +52,17 @@ module.exports = {
                     collapsable: false, // 可选的, 默认值是 true,
                     children: [
                         ['test2.md', '子菜单1']
+                    ]
+                }
+            ],
+            '/pages/example/': [
+                {
+                    title: 'DEMO',
+                    collapsable: false, // 可选的, 默认值是 true,
+                    sidebarDepth: 1,    // 可选的, 默认值是 1
+                    children: [
+                        ['container.md', 'Container'],
+                        ['sprite.md', 'Sprite']
                     ]
                 }
             ],
