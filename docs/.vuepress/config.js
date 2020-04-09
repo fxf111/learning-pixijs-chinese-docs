@@ -33,7 +33,7 @@ module.exports = {
                 ]
             },
             { text: '示例', link: '/pages/example/container.md' },
-            { text: '功能演示', link: '/pages/folder1/test3.md' },
+            // { text: '功能演示', link: '/pages/folder1/test3.md' },
             { text: 'Github', link: 'https://github.com/fxf111/pixijs' },
         ],
         sidebar: {
