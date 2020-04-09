@@ -26,7 +26,7 @@ module.exports = {
                     {
                         text: '其它', 
                         items: [
-                            { text: 'API', link: 'http://pixijs.download/release/docs/index.html' },
+                            { text: 'API', link: 'http://b.aitrade.ga/pixi.js-cn' },
                             { text: '琐碎', link: '/pages/folder2/test4.md' },
                         ]
                     }
@@ -66,15 +66,15 @@ module.exports = {
                     ]
                 }
             ],
-            '/api/': [
-                {
-                    title: 'PixiJS',
-                    sidebarDepth: 2,
-                    children: [
-                        ['PIXI.md', 'PIXI']
-                    ]
-                }
-            ],
+            // '/api/': [
+            //     {
+            //         title: 'PixiJS',
+            //         sidebarDepth: 2,
+            //         children: [
+            //             ['PIXI.md', 'PIXI']
+            //         ]
+            //     }
+            // ],
             '/guide/': [
                 {
                     title: '起步',
