@@ -1,7 +1,7 @@
 {
-  "name": "pressproject",
+  "name": "learning-pixijs-chinese-docs",
   "version": "1.0.0",
-  "description": "",
+  "description": "pixijs中文教程",
   "main": "index.js",
   "scripts": {
     "dev": "vuepress dev docs",
@@ -10,7 +10,7 @@
   },
   "keywords": [],
   "author": "",
-  "license": "ISC",
+  "license": "MIT",
   "dependencies": {
     "opencollective-postinstall": "^2.0.2",
     "vuepress": "^1.3.1"
