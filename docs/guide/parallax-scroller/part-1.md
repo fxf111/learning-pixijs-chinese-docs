@@ -21,11 +21,11 @@ JavaScript是无处不在。由于浏览器的日益成熟和大量的JavaScript
 本系列教程将向您介绍JavaScript游戏开发的基础知识，并重点介绍pixi.js。Pixi.js是一个新的2D渲染框架，支持WebGL和HTML5 Canvas。到最后，你将制作如下水平视差滚动游戏地图。
 
 
-<a href="http://www.yeahbutisitflash.com/pixi-parallax-scroller/final/index.html">![](/scroller/ps-tut1-screenshot1.png)</a>
+<a href="http://www.yeahbutisitflash.com/pixi-parallax-scroller/final/index.html">![](/images/scroller/ps-tut1-screenshot1.png)</a>
 
 单击上面的图像将启动并运行视差滚动的最终版本。请注意它包含了三个视差层:远层、中间层和前景层。在第一个教程中，我们将实现一些基本的视差滚动，即只处理远层和中间层。当然，为了完成这件事情，我们会给你介绍一些pixi.js的基础知识。此外，如果你是JavaScript新手，这还是一个学习HTML5游戏编程基础的好地方。
 
-<a href="http://www.yeahbutisitflash.com/pixi-parallax-scroller/tutorial-1/index.html">![](/scroller/ps-tut1-screenshot1.png)</a>
+<a href="http://www.yeahbutisitflash.com/pixi-parallax-scroller/tutorial-1/index.html">![](/images/scroller/ps-tut1-screenshot1.png)</a>
 
 在我们开始之前，请单击上面的图像，查看当前这部分教程的成果。你可以从GitHub[下载本教程的源代码](http://github.com/ccaleb/pixi-parallax-scroller)。
 
@@ -45,11 +45,11 @@ JavaScript是无处不在。由于浏览器的日益成熟和大量的JavaScript
 
 你在windows上看到的`parallax-scroller`文件夹包含这些东西。
 
-![](/scroller/screenshot3.png)
+![](/images/scroller/screenshot3.png)
 
 Mac OS X 下是这样的。
 
-![](/scroller/screenshot4.png)
+![](/images/scroller/screenshot4.png)
 
 现在启动Sublime Text 2或您自己喜欢的代码编辑器，我们要开始写代码了。
 
@@ -401,7 +401,7 @@ function update() {
 
 在循环的最后，我们再次调用`requestAnimationFrame()`函数，以确保可以再次调用`update()`绘制画布。正是这个函数确保我们的主循环被不断地调用，从而确保视差层在屏幕上稳定地移动。
 
-![](/scroller/ps-tut1-screenshot5.png)
+![](/images/scroller/ps-tut1-screenshot5.png)
 
 保存您的工作并刷新浏览器。您应该看到这两个图层现在都已自动呈现到屏幕上。 同样，当两层都在移动时，中间层实际上将比远端层移动得更快，从而给场景带来纵深感。但是，您应该发现了一个明显的问题：随着每个精灵从屏幕的左侧移出，它会在右侧留下一个空白区域。 换句话说，不会给人一种环境连续滚动的错觉。 幸运的是我们有一个解决方案。
 

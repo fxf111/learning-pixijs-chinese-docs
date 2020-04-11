@@ -5,10 +5,10 @@
 这里是一张我们目前正在开发中的应用了该效果之前和之后对比的游戏截图。
 
 
-![](/tutorial/tutorialWithoutDark.png)
+![](/images/tutorial/tutorialWithoutDark.png)
 
 
-![](/tutorial/tutorialWithDark.png)
+![](/images/tutorial/tutorialWithDark.png)
 
 ## 长话短说，上干货
 
@@ -162,7 +162,7 @@ function animate() {
 如果你想清晰的过渡的话，就不需要使用它。看你的需要啦，
 这是我用的图片(是jpg格式的,没有透明度)
 
-![](/tutorial/overlay2.jpg)
+![](/images/tutorial/overlay2.jpg)
 
 这段代码可以使它生效
 

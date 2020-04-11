@@ -20,7 +20,7 @@
 您将使用在[第一个教程](/guide/parallax-scroller/part-1.md)中生成的代码。或者，您可以从[GitHub下载](https://github.com/ccaleb/pixi-parallax-scroller/tree/master/tutorial-1)以前的教程源代码。另外，本教程的全部源代码也可以在[GitHub](https://github.com/ccaleb/pixi-parallax-scroller/tree/master/tutorial-2)上找到。
 
 
-<a href="http://www.yeahbutisitflash.com/pixi-parallax-scroller/tutorial-1/index.html">![](/scroller/ps-tut1-screenshot1.png)</a>
+<a href="http://www.yeahbutisitflash.com/pixi-parallax-scroller/tutorial-1/index.html">![](/images/scroller/ps-tut1-screenshot1.png)</a>
 
 
 
@@ -43,7 +43,7 @@
 
 由于继承的奇妙之处，所有这些通用功能都可用，其中一个类可以继承和扩展另一个类的功能。 为了帮助您理解这一点，请查看下图，该图显示了pixi.js提供的大多数显示对象。
 
-![](/scroller/ps-tut2-screenshot1.png)
+![](/images/scroller/ps-tut2-screenshot1.png)
 
 从上图可以看出，最基本的类型是`PIXI.DisplayObject`类，每个其他显示对象都继承自该类。 此类表示将对象呈现到屏幕所需的绝对必要元素。
 
@@ -412,7 +412,7 @@ function update() {
 
 能够编写专门的显示对象，在大部分情况下都非常有用。我们的`Far`和`Mid`类本质上与pixi.js支持的任何其他显示对象一样。下图说明了我们两个专用类在Pixi显示对象类的继承结构中的位置。
 
-![](/scroller/ps-tut2-screenshot2.png)
+![](/images/scroller/ps-tut2-screenshot2.png)
 
 ## 创建一个Scroller类
 

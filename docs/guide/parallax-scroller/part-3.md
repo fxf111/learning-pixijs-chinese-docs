@@ -24,7 +24,7 @@
 在接下来的两个教程中，我们将构建一个与Monster Dash中非常相似的滚动游戏地图。 Monster Dash的游戏地图是根据一系列宽度和高度不同的墙跨度构建的。 游戏的目的是通过跨墙跳来尽可能长地生存。 游戏地图的滚动速度会随着时间增加而增加。
 
 
-<a href="http://www.yeahbutisitflash.com/pixi-parallax-scroller/final/index.html">![](/scroller/ps-tut1-screenshot1.png)</a>
+<a href="http://www.yeahbutisitflash.com/pixi-parallax-scroller/final/index.html">![](/images/scroller/ps-tut1-screenshot1.png)</a>
 
 点击上图，即可查看本节教程的demo。
 
@@ -36,10 +36,10 @@
 
 如果你用的windows，那么`resources`文件夹应该是这样的：
 
-![](/scroller/ps-tut3-screenshot1.png)
+![](/images/scroller/ps-tut3-screenshot1.png)
 
 Mac下则应该是这样的：
-![](/scroller/ps-tut3-screenshot2.png)
+![](/images/scroller/ps-tut3-screenshot2.png)
 
 另外，请记住，为了测试您的工作，您需要运行一个本地web服务器。如果您还没有这样做，请参阅第一篇教程的[入门](/guide/parallax-scroller/part-1.md#入门)部分，了解关于如何设置web服务器的详细信息。
 
@@ -50,21 +50,21 @@ Mac下则应该是这样的：
 
 所以墙内是如何构成的?那么每个跨度都是由一系列缝合在一起的垂直切片构建而成的。 每个切片的大小为64 x 256像素。 下图显示了跨度示例。
 
-![](/scroller/diagram-1.png)
+![](/images/scroller/diagram-1.png)
 
 墙跨的高度是通过垂直移动每个切片的位置来实现的。你可以在下面的图表中看到，第二面墙的切片部分位于视口的可视区域之下，给人的感觉是它比第一面墙低。
 
-![](/scroller/diagram-2.png)
+![](/images/scroller/diagram-2.png)
 
 在大多数情况下，墙跨内的每个切片将位于相同的垂直位置以产生完美的平面。 但是，有一个例外。 Monster Dash具有阶梯状的墙跨度，可让玩家掉落到正下方的表面上。 它是这样生成的：
 
-![](/scroller/diagram-3.png)
+![](/images/scroller/diagram-3.png)
 
 如果你仔细看看上面的图表，你会注意到我们这里实际上有两个跨墙(第一个跨墙比第二个跨墙高)，由中间代表台阶的一个薄片连接。
 
 您可能会惊讶于我们的整个游戏地图将仅由八种不同类型的垂直切片构成！ 您可以在下面看到这八个：
 
-![](/scroller/diagram-4.png)
+![](/images/scroller/diagram-4.png)
 
 在墙跨度内这些切片的顺序很重要。 让我们进一步谈谈。
 ## 墙跨度（间距）的解剖
@@ -77,7 +77,7 @@ Mac下则应该是这样的：
 
 前边由单个垂直切片表示。后面的边也是。然而中间的部分可以由一个或多个切片组成。切片越多，特定的墙跨度就会越长。在我们正在进行的演示中，我们将包括一些跨越30多个切片的墙壁。下图会进一步说明墙跨的三个主要部分。
 
-![](/scroller/diagram-5.png)
+![](/images/scroller/diagram-5.png)
 
 墙壁的中间部分由以下两部分连接：
 
@@ -97,7 +97,7 @@ Mac下则应该是这样的：
 
 为了澄清所有这些问题，这里再次列出了所有八个切片类型，但是这次我标记了每个切片的用途：
 
-![](/scroller/diagram-6-1024x531.png)
+![](/images/scroller/diagram-6-1024x531.png)
 
 在本教程中，有必要在单独的选项卡中打开上面的图并参考它。
 ::: tip
@@ -114,7 +114,7 @@ Mac下则应该是这样的：
 
 我已经在本教程的`resources.zip`文件中为您提供了精灵表格。它是一个名为`wall.png`的文件，如下所示。正如您所看到的，所有8个切片都被打包到一个位图中。
 
-![](/scroller/sprite-sheet.png)
+![](/images/scroller/sprite-sheet.png)
 
 `resources`文件中，还有一个精灵表格附带的文件`wall.json`。将其加载到文本编辑器中并查看。这个文件使用JSON数据格式来定义精灵表格中独立的位图切片的名称和位置。当使用sprite表格时，它里面的每个单独的位图被称为一个帧。
 
