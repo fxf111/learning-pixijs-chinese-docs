@@ -116,5 +116,298 @@ Mac下则应该是这样的：
 
 ![](/images/scroller/sprite-sheet.png)
 
-`resources`文件中，还有一个精灵表格附带的文件`wall.json`。将其加载到文本编辑器中并查看。这个文件使用JSON数据格式来定义精灵表格中独立的位图切片的名称和位置。当使用sprite表格时，它里面的每个单独的位图被称为一个帧。
+`resources`文件中，还有一个精灵表格附带的文件`wall.json`。将其加载到文本编辑器中并查看。这个文件使用JSON数据格式来定义精灵表格中独立的位图切片的名称和位置。当使用精灵表格时，它里面的每个单独的位图被称为一个帧。
 
+::: tip
+我们的整个精灵表格将作为纹理加载到我们的代码中(你的中间层（mid layer）和远层（far layer）也都作为纹理加载)。因此，你可以把帧（frame）当作子纹理。
+:::
+
+您不需要完全了解JSON文件，因为Pixi会为您完成所有这些工作。 但是，有必要对您正在处理的内容有一些了解。 下面是JSON数据的一个片段，其中显示了代表第一个墙边缘切片的帧(frame)。 我为您强调了一些事项（高亮行）：
+
+
+```json {1,3}
+"edge_01":
+{
+  "frame": {"x":128,"y":0,"w":64,"h":256},
+  "rotated": false,
+  "trimmed": false,
+  "spriteSourceSize": {"x":0,"y":0,"w":64,"h":256},
+  "sourceSize": {"w":64,"h":256}
+},
+```
+
+第一行包含与帧(frame)关联的唯一名称(`edge_01`)：
+
+``` json
+"edge_01":
+```
+
+每当我们想从精灵表格中直接获取此墙切片的位图图像时，就会在代码中使用该名称。
+
+如果您不熟悉JSON数据格式，那么可以在这个[Wikipedia条目](http://en.wikipedia.org/wiki/JSON)(需翻墙)中查阅相关内容。
+
+下面这个高亮的代码行定义了帧(frame)的矩形区域：
+
+``` json {1}
+"frame": {"x":128,"y":0,"w":64,"h":256},
+```
+
+本质上，这是用来定位精灵表格上帧相关的位图。
+
+JSON文件中还有其他七个墙切片类型的条目。 每个切片将由唯一的帧名称表示。在使用精灵表格时，您需要从JSON文件中获取与每个帧关联的名称。在下方，您可以再次看到精灵表格，但是这次，我还提供了与每种墙片类型关联的帧名称。 您可能还希望在单独的浏览器选项卡中将此图像保持打开状态。
+
+![](/images/scroller/sprite-sheet-with-names.png)
+
+如果您向下滚动至`wall.json`的最底部，则会看到一个包含一些元数据的部分：
+
+``` json {4}
+"meta": {
+  "app": "http://www.codeandweb.com/texturepacker ",
+  "version": "1.0",
+  "image": "wall.png",
+  "format": "RGBA8888",
+  "size": {"w":256,"h":512},
+  "scale": "1",
+  "smartupdate": "$TexturePacker:SmartUpdate:fc102f6475bdd4d372c..."
+}
+```
+
+这些数据中包含精灵表格实际使用的PNG文件的相对路径。 Pixi将使用该数据加载PNG文件。
+
+同样，不要太担心实际的JSON数据，因为pixi.js会为您处理它和精灵表格的加载。您需要记住的只是唯一的帧名。
+
+## 纹理打包器（TEXTUREPACKER）
+
+我使用了一个工具来生成本教程的精灵表格和关联的JSON文件。这个工具就是[TexturePacker](http://www.codeandweb.com/texturepacker)，它适用于Windows、Mac OS X和Linux。它可以导出多种精灵表格数据格式，包括pixi.js使用的`JSON(HASH)`格式。在本教程中，我不会介绍如何使用TexturePacker，但是它非常容易使用。付费版非常物有所值，对于那些想先学习基础知识的人，还有免费版供你选择。
+
+## 加载精灵表格
+好了，现在我们已经了解了一些关于精灵表格的知识，让我们来加载它们。我们将首先向您的项目的主应用程序类中添加一些代码。在文本编辑器中打开`Main.js`。
+
+在文件末尾，添加以下方法以加载精灵表格：
+
+```js
+Main.prototype.loadSpriteSheet = function() {
+  var loader = PIXI.loader;
+  loader.add("wall", "resources/wall.json");
+  loader.once("complete", this.spriteSheetLoaded.bind(this));
+  loader.load();
+};
+```
+
+我们的方法利用了`PIXI.loaders.Loader`类，该类可用于加载图像，精灵表格和位图字体文件。我们直接从`PIXI.loader`属性获取加载器的实例。我们使用loader添加了要加载的每个资源。 目前，我们只需添加`wall.json`文件。我们传递希望与文件关联的唯一ID作为第一个参数，资源的相对路径作为第二个参数。
+
+一旦加载了精灵表格，`PIXI.loaders.Loader`类就会触发`complete`事件。 为了响应该事件，我们只需将`complete`事件关联到我们的回调方法`spriteSheetLoaded()`。我们稍后再来编写`spriteSheetLoaded()`方法。
+
+最后，调用`PIXI.loaders.Loader`实例的`load()`方法，来加载我们的精灵表格。 加载完毕后，Pixi将提取它的帧并将它们存储在一个内部的纹理缓存中，以便以后访问。
+
+::: tip
+目前，远层和中间层图像都是在它们的构造函数中加载的。 但是，我们实际上可以预先加载这些图像，并在实例化`Far`和`Mid`类时避免短暂的延迟。 尝试将它们添加到我们的`Loader`实例中：
+
+```js {2-3}
+loader.add("wall", "resources/wall.json");
+loader.add("bg-mid", "resources/bg-mid.png");
+loader.add("bg-far", "resources/bg-far.png");
+```
+无需对`Far`或`Mid`类进行任何编辑，因为调用`PIXI.Texture.fromImage()`方法时，加载纹理时会先从纹理缓存中查找，如果不存在，再去实际加载。
+:::
+
+现在让我们编写`spriteSheetLoaded()`方法。在文件末尾添加以下内容:
+
+```js
+Main.prototype.spriteSheetLoaded = function() {
+};
+```
+
+该方法的主体目前是空的，但实际上我们需要做一些事情。 目前，我们创建了`Scroller`类的实例，并在主应用程序类的构造函数中启动了主循环。 但是，我们现在要等到精灵表格加载完成之后再进行这些操作。 让我们将该代码移到我们的`spriteSheetLoaded()`方法中。
+
+向上滚动到构造函数并删除下面高亮的两行：
+```js {9,11}
+function Main() {
+  this.stage = new PIXI.Container();
+  this.renderer = PIXI.autoDetectRenderer(
+    512,
+    384,
+    {view:document.getElementById("game-canvas")}
+  );
+
+  this.scroller = new Scroller(this.stage); // 删除
+
+  requestAnimationFrame(this.update.bind(this)); //删除
+}
+```
+
+现在回到spriteSheetLoaded()方法，并将上面删除的那两行代码添加到这里：
+
+```js {2,3}
+Main.prototype.spriteSheetLoaded = function() {
+  this.scroller = new Scroller(this.stage);
+  requestAnimationFrame(this.update.bind(this));
+};
+```
+
+最后，回到构造函数，并调用`loadSpriteSheet()`方法：
+
+```js {9}
+function Main() {
+  this.stage = new PIXI.Container();
+  this.renderer = PIXI.autoDetectRenderer(
+    512,
+    384,
+    {view:document.getElementById("game-canvas")}
+  );
+
+  this.loadSpriteSheet();
+}
+```
+
+现在保存更改并刷新浏览器。 查看Chrome的JavaScript控制台，确保代码没有报错。
+
+::: tip
+请记住，按F12键（在Mac上为Cmd + Opt + i）以打开“开发工具”窗口，然后单击“console”选项卡。
+:::
+
+
+## 测试精灵表格
+虽然我们已经成功地加载了精灵表格，但我们还没有真正地向自己证明它的帧(我们的八种垂直墙片类型)已经存储在Pixi的纹理缓存中。让我们使用这些帧来创建一些精灵。
+
+我们将在`spriteSheetLoaded()`方法中执行我们的测试。将以下代码添加到里面：
+
+```js {5-8}
+Main.prototype.spriteSheetLoaded = function() {
+  this.scroller = new Scroller(this.stage);
+  requestAnimationFrame(this.update.bind(this));
+
+  var slice1 = PIXI.Sprite.fromFrame("edge_01");
+  slice1.position.x = 32;
+  slice1.position.y = 64;
+  this.stage.addChild(slice1);
+};
+```
+
+在上面的代码中，我们利用了`PIXI.Sprite`类的`fromFrame()`静态方法。 它使用纹理缓存中与指定帧ID匹配的纹理创建一个新的精灵。 我们指定的是`edge_01`帧，它会展示墙跨度前面的一个切片。
+
+保存您的代码并刷新浏览器以查看您的墙壁切片。它在屏幕上的位置现在并不重要，所以现在不要担心。
+
+让我们添加第二个垂直切片。 这次，我们将使用墙中间部分的切片类型。 更准确地说，我们将使用精灵表格中名为`decoration_03`的帧。
+
+```js {10-13}
+Main.prototype.spriteSheetLoaded = function() {
+  this.scroller = new Scroller(this.stage);
+  requestAnimationFrame(this.update.bind(this));
+
+  var slice1 = PIXI.Sprite.fromFrame("edge_01");
+  slice1.position.x = 32;
+  slice1.position.y = 64;
+  this.stage.addChild(slice1);
+
+  var slice2 = PIXI.Sprite.fromFrame("decoration_03");
+  slice2.position.x = 128;
+  slice2.position.y = 64;
+  this.stage.addChild(slice2);
+};
+```
+
+再次保存并测试您的代码。您现在应该看到两个垂直的墙壁切片位于舞台上，类似于下面的屏幕截图。
+
+![](/images/scroller/tut3-testing-sprite-sheet.png)
+
+希望您现在对精灵表格的帧已成功加载和缓存感到满意。从`spriteSheetLoaded()`方法中删除测试代码。现在你的`spriteSheetLoaded()`应该是这样的：
+```js {1-4}
+Main.prototype.spriteSheetLoaded = function() {
+  this.scroller = new Scroller(this.stage);
+  requestAnimationFrame(this.update.bind(this));
+};
+```
+
+保存您的更改。
+
+## 一些GPU理论
+
+我还没有解释为什么我们选择将墙壁切片打包到精灵表格中，而不是简单地将八个独立的png加载到内存中。原因是性能。Pixi的WebGL渲染器利用您的计算机的图形处理单元(GPU)来加速图形性能。然而，为了保证最佳的性能，我们至少对GPU的工作原理有一些了解。
+
+GPU最好是一次处理大量数据。 Pixi试图通过单批发送描述显示对象（display object）的数据来适应您的GPU。 但是，它只能批量处理具有相似状态的显示对象。 当遇到一个不同状态的显示对象时，状态发生了变化，GPU会停止绘制当前的批处理。在你的程序中发生的状态变化越少，那么GPU为了渲染你的显示列表而需要预成形的绘制操作就越少。GPU需要执行的绘制操作越少，渲染速度就越快。
+
+::: tip
+我刚才提到的绘制操作通常称为绘制调用。
+:::
+
+不幸的是，每次遇到具有不同纹理的显示对象时，都会发生状态更改。精灵表格可以帮助避免状态变化，因为所有图像都存储在一个单一的纹理中。GPU可以很愉快地从精灵表格绘制每一帧(或子纹理)，而不需要单独的绘制调用。
+
+然而，可以存储在GPU上的纹理大小是有限制的。大多数现代gpu可以存储2048像素大小的纹理。因此，如果你打算使用一个精灵表格，那么请确保它的尺寸不超过GPU的纹理大小限制。谢天谢地，我们的精灵表格的大小没有问题。
+
+因此，我们的精灵表格可以大大提高我们的性能，而不是将每个墙壁切片的图像存储在一个单独的纹理。
+
+## 表示游戏地图
+
+所以我们已经成功地加载了我们的精灵表格，并成功地展示了它的一些帧，但是我们实际上如何构建一个包含我们的墙跨的大型地图。
+
+我想最易于理解的方法是创建精灵数组，其中每个精灵代表我们地图上的垂直墙壁切片。然而，考虑到每个切片的宽度很窄，我们的整个地图将很容易由几千个精灵组成。一次要在内存中保存许多精灵。另外，如果我们只是简单地将所有这些精灵放到我们的显示列表中，那么它将会给渲染器带来巨大的压力，并可能影响你的游戏帧率。
+
+另一种方法是实例化并仅显示将在视口中可见的精灵。 随着地图滚动，最左侧的精灵最终将离开屏幕。 发生这种情况时，我们可以从显示列表中删除该精灵，然后在视口最右侧之外添加一个新的精灵。 通过这种方法，我们可以为用户提供正在滚动整个地图的错觉，而实际上我们只需要处理视图中当前可见的部分。
+
+虽然第二种方法当然比第一种更好，但它需要为精灵分配固定的内存和释放位置:为从右边进入的每个新精灵分配内存，那个精灵的内存必须在离开视口并被移除后释放。为什么很糟糕呢?嗯，分配内存需要宝贵的CPU周期，这可能会影响游戏的性能。如果必须不断地分配内存，这一点尤其重要。
+
+释放对象之前使用的内存也是一个潜在的CPU占用问题。JavaScript运行时使用垃圾收集器来释放以前被不再需要的对象使用的内存。但是，您无法直接控制何时进行垃圾收集，如果必须释放大量内存，则此过程可能需要几毫秒。因此不断实例化精灵并将精灵从你的显示列表中移除会导致频繁的垃圾收集，而这又会影响你的游戏性能。
+
+还有第三种方法可以解决前两种方法的问题。它被称为对象池，在不触发JavaScript垃圾收集器的情况下更聪明地使用内存。
+
+## 对象池（OBJECT POOLING）
+
+要理解对象池，请考虑这个简单的示例。射击游戏中，玩家的飞船可能会在游戏过程中发射十万个炮弹，但由于飞船的射速，任何时候都只能在屏幕上显示20个炮弹。 因此，在游戏代码内仅创建20个炮弹实例并在游戏过程中重新使用这些炮弹是有意义的。
+
+这20枚炮弹可以存储在一个数组中。每次玩家触发时，我们都会从数组中移除一个炮弹并将其添加到屏幕中。当炮弹离开屏幕(或击中敌人)时，我们将它添加回数组，以便稍后再次使用。重要的是，我们从不需要创建新的炮弹实例。相反，我们只使用预先创建的20个实例池。在本例中，数组作为我们的对象池，是非常有意义的。
+
+::: tip
+如果你想了解更多关于对象池的信息，可以看看[维基百科上的条目](http://en.wikipedia.org/wiki/Object_pool_pattern)(需翻墙)。
+:::
+
+我们可以将对象池应用于游戏地图，并具有以下内容：窗户切片池； 一堆墙面装饰片； 一堆前壁边缘； 后墙边缘； 和一堵墙台阶。
+
+因此，尽管我们的游​​戏地图最终可能包含数百个窗户，但实际上我们只需要创建足够的窗户精灵即可覆盖视口的宽度。 当要在视口中显示窗户时，我们只需从窗户对象池中检索窗户精灵即可。 当该窗口滚动到视图之外时，我们将从显示列表中将其删除，然后将其返回到对象池。 我们将完全相同的原理应用于墙的边缘，装饰和台阶。
+
+有了足够的理论。 让我们开始构建一个对象池类来容纳我们的墙切片精灵。
+
+## 创建对象池类
+
+因为我们的游戏地图代表了一系列的墙壁，所以我们将创建一个名为`WallSpritesPool`的类来作为我们各种墙壁部件的对象池。
+
+::: tip
+更通用的类名可能是`MapSpritesPool`或`ObjectPool`。但是，就本教程而言，`WallSpritesPool`是有意义的。
+:::
+
+在文本编辑器中创建一个新文件，并添加以下构造函数:
+
+```js {1-3}
+function WallSpritesPool() {
+  this.windows = [];
+}
+```
+
+保存该文件并将其命名为`WallSpritesPool.js`。
+
+在构造函数中，我们定义了一个名为`windows`的空数组。这个数组将作为映射窗户精灵的对象池。
+
+## 添加窗户精灵到窗户(对象)池
+
+我们的数组需要预先填充一些窗户(window)精灵。请记住，有两种类型的窗户，我们的墙跨度可以支持一个有光的窗户和一个没有光的窗户，所以我们需要确保我们添加了充足的两种类型的精灵。将以下代码添加到构造函数，来填充一些窗户精灵到池中：
+
+```js {4-15}
+function WallSpritesPool() {
+  this.windows = [];
+
+  this.windows.push(PIXI.Sprite.fromFrame("window_01"));
+  this.windows.push(PIXI.Sprite.fromFrame("window_01"));
+  this.windows.push(PIXI.Sprite.fromFrame("window_01"));
+  this.windows.push(PIXI.Sprite.fromFrame("window_01"));
+  this.windows.push(PIXI.Sprite.fromFrame("window_01"));
+  this.windows.push(PIXI.Sprite.fromFrame("window_01"));
+  this.windows.push(PIXI.Sprite.fromFrame("window_02"));
+  this.windows.push(PIXI.Sprite.fromFrame("window_02"));
+  this.windows.push(PIXI.Sprite.fromFrame("window_02"));
+  this.windows.push(PIXI.Sprite.fromFrame("window_02"));
+  this.windows.push(PIXI.Sprite.fromFrame("window_02"));
+  this.windows.push(PIXI.Sprite.fromFrame("window_02"));
+}
+```
+
+上面的代码将12个窗户精灵添加到对象池中。前6个精灵代表有灯光的窗口(`window_01`)，而其他6个精灵代表没有灯光的窗口(`window_02`)。

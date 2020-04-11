@@ -99,7 +99,7 @@ light.rendMask({x: renderer.plugins.interaction.mouse.global.x, y: renderer.plug
 ./main.js
 ```
 这里是index.html
-```javascript
+```html
 <!DOCTYPE HTML>  
 <html>  
 <head>  
