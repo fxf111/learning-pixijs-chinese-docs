@@ -411,3 +411,390 @@ function WallSpritesPool() {
 ```
 
 上面的代码将12个窗户精灵添加到对象池中。前6个精灵代表有灯光的窗口(`window_01`)，而其他6个精灵代表没有灯光的窗口(`window_02`)。
+
+当我们使用对象池中的精灵时，获得前6个精灵是有灯光的窗户，后6个事没有灯光的窗户。我们希望获得的窗户类型是随机的，我们需要打乱它们的顺序。
+
+下面的方法用来打乱传递给它的数组。把它添加到你的代码中：
+
+```js
+WallSpritesPool.prototype.shuffle = function(array) {
+  var len = array.length;
+  var shuffles = len * 3;
+  for (var i = 0; i < shuffles; i++)
+  {
+    var wallSlice = array.pop();
+    var pos = Math.floor(Math.random() * (len-1));
+    array.splice(pos, 0, wallSlice);
+  }
+};
+```
+
+现在在构造函数中调用`shuffle()`方法:
+
+```js {17}
+function WallSpritesPool() {
+  this.windows = [];
+
+  this.windows.push(PIXI.Sprite.fromFrame("window_01"));
+  this.windows.push(PIXI.Sprite.fromFrame("window_01"));
+  this.windows.push(PIXI.Sprite.fromFrame("window_01"));
+  this.windows.push(PIXI.Sprite.fromFrame("window_01"));
+  this.windows.push(PIXI.Sprite.fromFrame("window_01"));
+  this.windows.push(PIXI.Sprite.fromFrame("window_01"));
+  this.windows.push(PIXI.Sprite.fromFrame("window_02"));
+  this.windows.push(PIXI.Sprite.fromFrame("window_02"));
+  this.windows.push(PIXI.Sprite.fromFrame("window_02"));
+  this.windows.push(PIXI.Sprite.fromFrame("window_02"));
+  this.windows.push(PIXI.Sprite.fromFrame("window_02"));
+  this.windows.push(PIXI.Sprite.fromFrame("window_02"));
+  
+  this.shuffle(this.windows);
+}
+```
+
+现在，我们进行一些重构，因为有一种更为简洁的方法来填充数组。 由于我们实际上是在数组中添加了两组精灵（带灯光的窗户和无灯光的窗户），因此可以删除以下高亮代码行：
+
+```js {4-15}
+function WallSpritesPool() {
+  this.windows = [];
+
+  this.windows.push(PIXI.Sprite.fromFrame("window_01")); // 删除
+  this.windows.push(PIXI.Sprite.fromFrame("window_01")); // 删除
+  this.windows.push(PIXI.Sprite.fromFrame("window_01")); // 删除
+  this.windows.push(PIXI.Sprite.fromFrame("window_01")); // 删除
+  this.windows.push(PIXI.Sprite.fromFrame("window_01")); // 删除
+  this.windows.push(PIXI.Sprite.fromFrame("window_01")); // 删除
+  this.windows.push(PIXI.Sprite.fromFrame("window_02")); // 删除
+  this.windows.push(PIXI.Sprite.fromFrame("window_02")); // 删除
+  this.windows.push(PIXI.Sprite.fromFrame("window_02")); // 删除
+  this.windows.push(PIXI.Sprite.fromFrame("window_02")); // 删除
+  this.windows.push(PIXI.Sprite.fromFrame("window_02")); // 删除
+  this.windows.push(PIXI.Sprite.fromFrame("window_02")); // 删除
+  
+  this.shuffle(this.windows);
+}
+```
+
+添加下面高亮代码行：
+
+```js {4,5,10-16}
+function WallSpritesPool() {
+  this.windows = [];
+
+  this.addWindowSprites(6, "window_01");
+  this.addWindowSprites(6, "window_02");
+  
+  this.shuffle(this.windows);
+}
+
+WallSpritesPool.prototype.addWindowSprites = function(amount, frameId) {
+  for (var i = 0; i < amount; i++)
+  {
+    var sprite = PIXI.Sprite.fromFrame(frameId);
+    this.windows.push(sprite);
+  }
+};
+
+WallSpritesPool.prototype.shuffle = function(array) {
+  var len = array.length;
+  var shuffles = len * 3;
+  for (var i = 0; i < shuffles; i++)
+  {
+    var wallSlice = array.pop();
+    var pos = Math.floor(Math.random() * (len-1));
+    array.splice(pos, 0, wallSlice);
+  }
+};
+```
+
+保存你的更改。
+
+`addWindowSprites()`方法允许我们将一些精灵添加到`windows`数组中，这些数组使用了与精灵表格的帧。因此，很容易将一组6个有灯光的窗户精灵和一组6个没有灯光的窗户精灵添加到我们的池中。
+
+在继续之前，我们应该再做一个重构。让我们将代码从构造函数移到它自己的方法中。向上滚动到构造函数并删除以下高亮行：
+
+```js {2-7}
+function WallSpritesPool() {
+  this.windows = [];
+
+  this.addWindowSprites(6, "window_01");
+  this.addWindowSprites(6, "window_02");
+  
+  this.shuffle(this.windows);
+}
+```
+
+将删除的那些代码放在一个新方法中：
+
+```js {4-11}
+function WallSpritesPool() {
+}
+
+WallSpritesPool.prototype.createWindows = function() {
+  this.windows = [];
+
+  this.addWindowSprites(6, "window_01");
+  this.addWindowSprites(6, "window_02");
+
+  this.shuffle(this.windows);
+};
+```
+
+最后，在构造函数中调用`createWindows()`方法:
+
+```js {2}
+function WallSpritesPool() {
+  this.createWindows();
+}
+
+WallSpritesPool.prototype.createWindows = function() {
+  this.windows = [];
+
+  this.addWindowSprites(6, "window_01");
+  this.addWindowSprites(6, "window_02");
+
+  this.shuffle(this.windows);
+};
+```
+
+现在，我们有了创建窗户精灵，然后把他们添加到数组并打乱顺序的代码。保存您当前的更改，让我们继续。
+
+## 为什么是12个窗户精灵？
+
+从技术上讲，我们可以在我们的池中使用少于12个窗户精灵。毕竟，我们只需要足够的精灵来覆盖视口的宽度。我选择12个窗户精灵的原因是为了给墙壁跨度上有光和无光窗户的图案增加一些随机性。我可以在合理的范围内使用任意数量的精灵，只要它提供足够的窗户精灵让我在视口内生成一个墙跨度。
+
+## 借用和归还精灵
+
+我们的对象池是窗户精灵的集合，但是我们尚未提供允许从池中获取精灵或将其返回给池的公共方法。
+
+::: tip
+所有方法和属性都可以在JavaScript中公开访问。 这可能使得难以识别属于您的类的API的方法和属性以及处理实现细节的方法和属性。 当我将某事物称为“公共”时，是指我打算将其用于该类之外（例如：这个类的实例）的其他地方。
+:::
+
+我们将为此提供以下两种方法：
+
+- `borrowWindow()`
+- `returnWindow()`
+
+`borrowWindow()`方法将从池中删除一个窗户精灵，并返回一个对它的引用，供您使用。使用完精灵后，可以通过调用`returnWindow()`并将精灵作为参数传递，将它放回池中。
+
+好的，让我们编写`borrowWindow()`方法。在类的构造函数之后添加以下内容:
+
+```js {5-7}
+function WallSpritesPool() {
+  this.createWindows();
+}
+
+WallSpritesPool.prototype.borrowWindow = function() {
+  return this.windows.shift();
+};
+```
+
+如您所见，这是一个相当简单的方法，它只是从`windows`数组删除第一个精灵并返回这个精灵。
+
+::: tip
+我们的`borrowWindow()`方法不会检查池中是否还有精灵。在本系列教程中，我们不必担心这个问题，但是在尝试从精灵池中返回一些内容之前，最好检查一下精灵池是否为空。有多种处理空池的策略。一种常见的方法是在池耗尽时动态增加池的大小。
+:::
+
+现在将`returnWindow()`方法直接添加到它下面：
+
+```js {5-7}
+WallSpritesPool.prototype.borrowWindow = function() {
+  return this.windows.shift();
+};
+	
+WallSpritesPool.prototype.returnWindow = function(sprite) {
+  this.windows.push(sprite);
+};
+```
+
+与`borrowWindow()`一样，`returnWindow()`方法也很简单。它将一个精灵作为参数，并将该精灵添加到`windows`数组的末尾。
+
+现在，我们有了一种从对象池中获取窗户精灵的方法，也有了将精灵插入到对象池中的方法。
+
+保存你的更改。
+
+## 快速回顾一下
+
+让我们回过头来看一下`WallSpritesPool`类。代码不多，你需要了解它们是做什么的。你当前的代码应该是这样的：
+
+```js
+function WallSpritesPool() {
+  this.createWindows();
+}
+
+WallSpritesPool.prototype.borrowWindow = function() {
+  return this.windows.shift();
+};
+	
+WallSpritesPool.prototype.returnWindow = function(sprite) {
+  this.windows.push(sprite);
+};
+
+WallSpritesPool.prototype.createWindows = function() {
+  this.windows = [];
+
+  this.addWindowSprites(6, "window_01");
+  this.addWindowSprites(6, "window_02");
+
+  this.shuffle(this.windows);
+};
+
+WallSpritesPool.prototype.addWindowSprites = function(amount, frameId) {
+  for (var i = 0; i < amount; i++)
+  {
+    var sprite = PIXI.Sprite.fromFrame(frameId);
+    this.windows.push(sprite);
+  }
+};
+
+WallSpritesPool.prototype.shuffle = function(array) {
+  var len = array.length;
+  var shuffles = len * 3;
+  for (var i = 0; i < shuffles; i++)
+  {
+    var wallSlice = array.pop();
+    var pos = Math.floor(Math.random() * (len-1));
+    array.splice(pos, 0, wallSlice);
+  }
+};
+```
+
+这个类创建了一个数组，包含6个有灯光的窗户精灵和6个没有灯光的窗户精灵。数组充当窗户的精灵池，精灵池的顺序被随机打乱了。这个类提供了两个公共方法——`borrowWindow()`和`returnWindow()`——它们允许从精灵池中获取窗户精灵，和把它们返回到池中。
+
+就是这样。当然，我们仍然需要考虑其他的墙面切片类型(前墙边缘，后墙边缘，墙面装饰和墙台阶)，但是我们很快就会将它们添加到我们的`WallSpritesPool`类中。首先，让我们对这些做一些测试，以确保一切都如预期的那样工作。
+
+## 测试对象池
+
+移至index.html文件，并引入包含`WallSpritesPool`类的源文件：
+
+```html {5}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pixi.js/4.0.0/pixi.min.js"></script>
+<script src="Far.js"></script>
+<script src="Mid.js"></script>
+<script src="Scroller.js"></script>
+<script src="WallSpritesPool.js"></script>
+<script src="Main.js"></script>
+```
+
+保存更改。
+
+现在打开`Main.js`。我们对它做一些修改，来测试我们的对象池。
+
+我们将首先向`spriteSheetLoaded()`方法添加一些代码。创建一个对象池实例和一个数组，我们将使用它来保存从池中获得的墙壁切片精灵。
+
+```js {5-6}
+Main.prototype.spriteSheetLoaded = function() {
+  this.scroller = new Scroller(this.stage);
+  requestAnimationFrame(this.update.bind(this));
+
+  this.pool = new WallSpritesPool();
+  this.wallSlices = [];
+};
+```
+
+在上面的代码中，我们将对象池实例存储在一个名为`pool`的成员变量中，而数组的成员变量名为`wallSlices`。
+
+现在，让我们编写一些代码来从池中获取指定数量的窗户精灵并将它们添加到舞台中。在类的末尾添加以下测试方法：
+
+```js {1-12}
+Main.prototype.borrowWallSprites = function(num) {
+  for (var i = 0; i < num; i++)
+  {
+    var sprite = this.pool.borrowWindow();
+    sprite.position.x = -32 + (i * 64);
+    sprite.position.y = 128;
+
+    this.wallSlices.push(sprite);
+
+    this.stage.addChild(sprite);
+  }
+};
+```
+除了将窗户精灵添加到舞台之外，上面的`borrowWallSprites()`方法还将每个精灵添加到`wallSlices`成员变量中。这样做的原因是，我们需要能够在第二个测试方法中访问这些窗口精灵，我们现在将编写这个测试方法。添加以下:
+
+```js {1-10}
+Main.prototype.returnWallSprites = function() {
+  for (var i = 0; i < this.wallSlices.length; i++)
+  {
+    var sprite = this.wallSlices[i];
+    this.stage.removeChild(sprite);
+    this.pool.returnWindow(sprite);
+  }
+
+  this.wallSlices = [];
+};
+```
+
+这个`returnWallSprites()`方法将删除添加到舞台上的所有窗户切片，并将这些精灵返回到对象池。
+
+保存您的更改。
+
+通过这两个方法，我们可以验证是否可以从对象池中借用窗户精灵，并将这些精灵返回到池中。我们将使用Chrome的JavaScript控制台窗口。
+
+::: tip
+像往常一样，按F12 (Cmd + Opt + i在Mac上)打开开发工具窗口，然后单击Console选项卡。
+:::
+
+首先，确保在控制台窗口中没有报告错误。如果有，那么在继续下面教程之前修复它们。
+
+现在让我们通过从对象池中检索9个窗口来创建一个非常粗糙的墙。在控制台中输入以下内容：
+
+```js
+main.borrowWallSprites(9);
+```
+
+::: tip
+请记住，可以通过主全局变量访问我们的主应用程序类，我们可以使用该全局变量来调用`borrowWallSprites()`方法。
+:::
+
+就像下面的截图一样，你会看到9个窗户精灵横跨舞台。所有9个精灵都是从你的对象池中借来并添加到舞台上的。还要注意，亮窗和不亮窗的顺序很可能是随机出现的。这是由于池中的windows数组在创建后被打乱了。
+
+![](/images/scroller/tut3-testing-object-pool.png)
+
+现在让我们验证一下是否可以将这些精灵返回到对象池。在控制台中输入以下内容：
+
+```js
+main.returnWallSprites();
+```
+
+您的这些精灵应该从舞台上消失，并将返回到对象池。
+
+我们需要确信，精灵确实已经回到了对象池中。最简单的方法是从池中请求更多的窗户精灵，并检查它们是否也出现在屏幕上。我们再从池里拿出九个窗户精灵：
+
+```js
+main.borrowWallSprites(9);
+```
+
+然后把它们放回池中:
+
+```js
+main.returnWallSprites();
+```
+
+现在，我们已经从对象池中总共获得了18个精灵。记住，池只包含12个窗户精灵。因此，我们有一些证据证明精灵是从池中借来的，并在完成后成功返回。如果它们没有被返回，那么当对象池的内部数组变为空时，我们最终会收到一个运行时错误。
+
+由于JavaScript中的所有内容都是公开可访问的，所以我们可以很容易地随时检查对象池的内部数组。尝试从控制台中检查数组的大小
+
+```js
+main.pool.windows.length
+```
+
+应该返回的长度是12。现在借用四个窗口精灵从池使用：
+
+```js
+main.borrowWallSprites(4);
+```
+
+再次检查对象池的大小:
+
+```js
+main.pool.windows.length
+```
+
+它现在应该只包含8个精灵。最后，通过调用`returnWallSprites()`将精灵返回池中。再次检查对象池的大小并确认其长度已返回到12。
+
+让我们继续，注意要保留添加到主应用程序类中的测试代码，因为我们还会用到它。
+
+
+## 向对象池添加墙壁装饰
