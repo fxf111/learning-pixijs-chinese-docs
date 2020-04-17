@@ -114,3 +114,131 @@ Walls.prototype = Object.create(PIXI.Container.prototype);
 ```
 将文件保存并命名为：`Walls.js`.
 
+
+目前为止，除了从PIXI.Container继承功能外，我们的课程并没有做太多事情。
+在我们开始在我们的类中添加更多代码之前，首先将其包含在我们的项目中，
+然后将其连接到我们的Scroller类，该类既包含中间层又包含中间层。
+
+打开index.html并添加以下行：
+```javascript
+<script src="SliceType.js"></script>
+<script src="Walls.js"></script>
+<script src="Main.js"></script>
+```
+保存你的更改。
+
+现在打开Scroller.js并在其构造函数中实例化Walls类。此外，将实例添加到显示列表中：
+
+```javascript
+function Scroller(stage) {
+  this.far = new Far();
+  stage.addChild(this.far);
+
+  this.mid = new Mid();
+  stage.addChild(this.mid);
+
+  this.front = new Walls();
+  stage.addChild(this.front);
+
+  this.viewportX = 0;
+```
+再次保存你的更改。
+
+
+## 整合对象库
+`Walls`类将大量使用您的对象池。请记住，您的对象池可让您借用墙切片精灵，并在完成后将它们返回到池中。
+例如，如果您要建造一面包含窗户的墙，则可以通过调用对象池的`roweWindow()`方法从对象池中获取窗户精灵。
+一旦不再使用窗口精灵，您可以通过调用`returnWindow()`将其返回到池中。
+对于其他墙切片类型，对象池具有类似的方法。
+
+
+让我们在Walls类中创建对象池的实例。打开Walls.js并在其中添加以下行：
+
+```javascript
+function Walls() {
+  PIXI.Container.call(this);
+
+  this.pool = new WallSpritesPool();
+}
+```
+保存你的更改。
+
+在上一教程中，我们利用两个查找表来帮助构建测试墙跨度。
+ 第一个查找表包含对对象池中“借用”方法的引用，这些引用是构建特定范围所必需的。 
+ 另一个表包含对将每个slice Sprite返回到池所需的相应“ return”方法的引用。
+
+我们将在此处编写类似的内容，但将以通用的方式进行编写，允许我们创建所需的任何墙跨度，而不是单个特定跨度。 
+第一个查询表将包含对我们对象池的五个“借用”方法的引用（每种墙壁切片类型一个）。
+第二个表将包含对池的五个“返回”方法的引用。
+这将提供一种方便的方式来管理壁厚类型的借入和归还。
+
+让我们写一个简单的方法来设置两个查找表。 将以下内容添加到`Walls.js`：
+
+```javascript
+Walls.prototype = Object.create(PIXI.Container.prototype);
+
+Walls.prototype.createLookupTables = function() {
+  this.borrowWallSpriteLookup = [];
+  this.borrowWallSpriteLookup[SliceType.FRONT] = this.pool.borrowFrontEdge;
+  this.borrowWallSpriteLookup[SliceType.BACK] = this.pool.borrowBackEdge;
+  this.borrowWallSpriteLookup[SliceType.STEP] = this.pool.borrowStep;
+  this.borrowWallSpriteLookup[SliceType.DECORATION] = this.pool.borrowDecoration;
+  this.borrowWallSpriteLookup[SliceType.WINDOW] = this.pool.borrowWindow;
+
+  this.returnWallSpriteLookup = [];
+  this.returnWallSpriteLookup[SliceType.FRONT] = this.pool.returnFrontEdge;
+  this.returnWallSpriteLookup[SliceType.BACK] = this.pool.returnBackEdge;
+  this.returnWallSpriteLookup[SliceType.STEP] = this.pool.returnStep;
+  this.returnWallSpriteLookup[SliceType.DECORATION] = this.pool.returnDecoration;
+  this.returnWallSpriteLookup[SliceType.WINDOW] = this.pool.returnWindow;
+};
+```
+在上面的方法中，我们创建了两个成员变量。 
+第一个，`rownWallSpriteLookup`是一个数组，其中包含对我们对象库的每个“借用”方法的引用。 
+第二个参数`returnWallSpriteLookup`也是一个数组，其中包含对每个对象池的“return”方法的引用。
+
+请注意，使用我们的`SliceType`类的常量来索引每个对象池的方法。
+例如，我们使用`SliceType.FRONT`将对对象池的`borrowFrontEdge()`方法的引用放置在查找表数组的索引位置0处：
+`this.borrowWallSpriteLookup[SliceType.FRONT] = this.pool.borrowFrontEdge;`
+
+
+在本教程的后面部分，我们将使用`SliceType`类的常量，用于在渲染前景层的内容时，访问和调用正确的“借用”和“返回”方法。 
+实际上，我们很快就会编写两种支持方法来帮助我们做到这一点。 
+但是首先，我们要确保通过在类的构造函数中调用`createLookupTables()`来创建查找表。
+
+添加以下行：
+
+```javascript
+function Walls() {
+  PIXI.Container.call(this);
+
+  this.pool = new WallSpritesPool();
+  this.createLookupTables();
+}
+```
+
+保存你的更改。
+
+## 借用和返还墙板的方法
+
+现在我们有了两个查找表，我们可以编写两种非常简单的支持方法：
+一种方法允许我们从对象池中借用特定的墙切片精灵，
+另一种方法将墙切片精灵返回给池。
+
+在`Walls.js`类的末尾添加以下两个方法：
+
+```javascript
+Walls.prototype.borrowWallSprite = function(sliceType) {
+  return this.borrowWallSpriteLookup[sliceType].call(this.pool);
+};
+
+Walls.prototype.returnWallSprite = function(sliceType, sliceSprite) {
+  return this.returnWallSpriteLookup[sliceType].call(this.pool, sliceSprite);
+};
+```
+第一种方法，roweWallSprite()，将墙面切片类型作为参数，然后从对象池返回该类型的子画面。 
+第二个参数returnWallSprite()需要两个参数：墙切片类型和以前借用的该类型的精灵。 
+它获取精灵并将其返回到对象池。 
+如果您查看这两种方法的实现，您会发现传递给每个方法的切片类型用于查找和调用适当的对象池方法。
+
+
