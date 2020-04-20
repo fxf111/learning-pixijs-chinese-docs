@@ -17,3 +17,17 @@
 
 
 > 教程翻译仍在进行中，欢迎各位小伙伴参与翻译、校对指正。
+
+
+# 如何使用文档
+
+## 直接访问上述网站
+
+## 克隆此仓库内容
+
+```
+> git clone https://github.com/fxf111/learning-pixijs-chinese-docs.git    // 克隆此仓库，完成后进入learning-pixijs-chinese-docs目录
+> npm install -g vuepress   // 安装vuepress
+> npm run dev   // 进入，访问http://localhost:8080
+
+```
