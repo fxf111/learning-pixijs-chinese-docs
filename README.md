@@ -25,9 +25,17 @@
 
 ## 克隆此仓库内容
 
+克隆此仓库，完成后进入learning-pixijs-chinese-docs目录
+``` bash
+> git clone https://github.com/fxf111/learning-pixijs-chinese-docs.git
 ```
-> git clone https://github.com/fxf111/learning-pixijs-chinese-docs.git    // 克隆此仓库，完成后进入learning-pixijs-chinese-docs目录
-> npm install -g vuepress   // 安装vuepress
-> npm run dev   // 进入，访问http://localhost:8080
 
+安装vuepress
+``` bash
+> npm install -g vuepress
+```
+
+启动服务，访问http://localhost:8080
+``` bash
+> npm run dev
 ```
