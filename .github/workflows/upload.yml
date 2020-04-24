@@ -1,0 +1,33 @@
+name: Upload COS
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout master
+        uses: actions/checkout@v2
+        with:
+          ref: master
+
+      - name: Setup node
+        uses: actions/setup-node@v1
+        with:
+          node-version: "10.x"
+
+      - name: Build project
+        run: yarn && yarn build
+    
+      - name: Upload COS
+        uses: zkqiang/tencent-cos-action@master
+        with:
+          args: upload -r docs/.vuepress/dist/ /
+          secret_id: ${{ secrets.SECRET_ID }}
+          secret_key: ${{ secrets.SECRET_KEY }}
+          bucket: ${{ secrets.BUCKET }}
+          region: ${{ secrets.REGION }}
