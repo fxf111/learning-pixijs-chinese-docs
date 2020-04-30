@@ -314,7 +314,7 @@ console.log("After returning window: " + this.pool.windows.length);
 >> After returning window: 12
 ```
 
-好的，我们已经了解了如何使用borrowWallSprite（）和returnWallSprite（）。 
+好的，我们已经了解了如何使用borrowWallSprite()和returnWallSprite()。 
 现在，让我们删除测试代码，然后继续。 
 从构造函数中删除以下几行：
 
@@ -400,7 +400,53 @@ WallSlice.WIDTH = 64;
 现在，让我们回到Walls类。
 
 
-将墙切片添加到游戏地图ADDING WALL SLICES TO THE GAME MAP
+##将墙切片添加到游戏地图
+
+我们的`Walls`类包含一个数组，该数组代表我们的地图，但目前为空。 
+让我们编写一个简单的方法，该方法将创建`WallSlice`实例并将其添加到数组中。 
+这将为我们提供构建地图的机制。
+
+将以下方法添加到您的类中：
+
+```javascript
+Walls.prototype = Object.create(PIXI.Container.prototype);
+
+Walls.prototype.addSlice = function(sliceType, y) {
+  var slice = new WallSlice(sliceType, y);
+  this.slices.push(slice);
+};
+```
+Save your changes.
+
+## 建立测试图
 
 
+每次调用`addSlice()`都会在我们的`slices`数组中再添加一个`WallSlice`实例。 
+因此，可以使用对`addSlice（）`的多次调用来构建映射。 
+让我们通过编写一个简单的测试方法来观察这一情况，该方法创建一个长`9`片的墙跨度。 
+这应该有助于阐明`addSlice()`方法和`WallSlice`类如何工作。
+
+在`Walls`类的末尾添加以下测试方法：
+
+```javascript
+Walls.prototype.returnWallSprite = function(sliceType, sliceSprite) {
+  return this.returnWallSpriteLookup[sliceType].call(this.pool, sliceSprite);
+};
+
+Walls.prototype.createTestWallSpan = function() {
+  this.addSlice(SliceType.FRONT, 192);
+  this.addSlice(SliceType.WINDOW, 192);
+  this.addSlice(SliceType.DECORATION, 192);
+  this.addSlice(SliceType.WINDOW, 192);
+  this.addSlice(SliceType.DECORATION, 192);
+  this.addSlice(SliceType.WINDOW, 192);
+  this.addSlice(SliceType.DECORATION, 192);
+  this.addSlice(SliceType.WINDOW, 192);
+  this.addSlice(SliceType.BACK, 192);
+};
+
+```
+如果要调用`createTestWallSpan()`，它将创建以下墙跨度的内存表示形式：
+
+![diagram-2](/images/scroller/scroller-4/diagram-2.png)
 
