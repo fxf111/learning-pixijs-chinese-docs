@@ -5,7 +5,7 @@
 <iframe 
  width="800"
  height="600" 
- src="/demo/1"  
+ src="/demo/1/index.html"  
  frameborder="0" 
  style="overflow:hidden" 
  scrolling="no">
