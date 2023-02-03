@@ -26,7 +26,7 @@ module.exports = {
                     {
                         text: '其它', 
                         items: [
-                            { text: 'API', link: 'http://b.aitrade.ga/pixi.js-cn' },
+                            { text: 'API', link: 'https://pixijs.download/release/docs/index.html' },
                             { text: '琐碎', link: '/pages/folder2/test4.md' },
                         ]
                     }
