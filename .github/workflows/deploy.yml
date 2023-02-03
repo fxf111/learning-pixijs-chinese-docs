@@ -21,7 +21,7 @@ jobs:
           node-version: "10.x"
 
       - name: Build project
-        run: yarn && yarn build
+        run: npm install && npm run build
 
       - name: Deploy gh-pages
         uses: JamesIves/github-pages-deploy-action@releases/v3
